@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/viclindq/vlin6834-tracker/issues"
   },
-  "homepage": "https://github.com/viclindq/vlin6834-tracker#readme"
+  "homepage": "https://github.com/viclindq/vlin6834-tracker#readme",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
 }
