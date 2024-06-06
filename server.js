@@ -1,13 +1,13 @@
 const express = require('express');
 const app = express();
-app.use(express.static(__dirname + '/dist'));
+app.use(express.static('public'));
 app.get('/', function(req, res) {
-    res.sendFile(__dirname + '/dist/index.html')
+    res.sendFile(__dirname + '/public/index.html')
    })
-let server = app.listen(8888, function(){
+   let server = app.listen(8888, function(){
     console.log("App server is running on port 8888");
    });
-   
+     
 // This code sets up a basic web server using Express.js, a popular web framework for Node.js. Let's break it down:
 
 // 1. **Require Express**: The code begins by importing the Express.js framework using the `require` function. This allows you to use Express's features in your code.
