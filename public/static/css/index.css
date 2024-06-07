@@ -1,3 +1,4 @@
+/* Existing CSS */
 body {
     --nav-width: 300px;
     margin: 0 0 0 var(--nav-width);
@@ -148,4 +149,39 @@ a {
 
 .pr-0 {
     padding-right: 0 !important;
+}
+
+/* Add styles for the recent songs section */
+/* Container for the recent songs */
+.recent-songs-container {
+    margin-top: 20px;
+}
+
+/* Styling for each song column */
+.col-md-2 {
+    padding: 0 9px; /* Adjust as needed */
+}
+
+/* Album cover image */
+.col-md-2 img {
+    width: 100%;
+    border-radius: 8px;
+}
+
+/* Song name */
+.col-md-2 .song-name {
+    margin-top: 10px;
+    font-weight: bold;
+}
+
+/* Artist name */
+.col-md-2 .artist {
+    font-size: 14px;
+    color: #aaaaaa;
+}
+
+/* Adjust column width for recent songs */
+.col-md-2 {
+    flex: 1;
+    max-width: calc(20% - 5px); /* 20% width with 10px padding */
 }
