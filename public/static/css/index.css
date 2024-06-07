@@ -1,5 +1,5 @@
 body {
-    --nav-width: 200px;
+    --nav-width: 300px; /* Increased from 200px to 250px */
     margin: 0 0 0 var(--nav-width);
     font-family: 'Quicksand', sans-serif;
     font-size: 18px;
@@ -12,6 +12,10 @@ body {
     width: var(--nav-width);
     height: 100vh;
     background: #222222;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding-top: 20px;
 }
 
 .nav__link {
@@ -24,6 +28,8 @@ body {
 
 .nav__link:hover {
     background: rgba(255, 255, 255, 0.05);
+    width: 100%; /* Added to cover the full width */
+    text-align: center; /* Added to align the text to the center */
 }
 
 #app {
@@ -34,4 +40,22 @@ body {
 
 a {
     color: #009579;
+}
+
+.profile {
+    text-align: center;
+    margin-bottom: 1px;
+}
+
+.profile__image {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile__name {
+    color: #3b91c2; /* Slightly darker blue */
+    font-size: 1.5em;
+    margin-top: 10px;
 }
