@@ -52,23 +52,69 @@ export default class extends AbstractView {
                         </div>
                     </div>
                     <div class="col-md-4 adjusted-padding">
-                        <div class="bg-grey rounded p-3 text-white h-100 d-flex flex-column min-height">
+                        <div class="bg-grey rounded p-3 text-white h-100 d-flex flex-column min-height" id="top-genres-container">
                             <h2>Top 3 Genres</h2>
-                            <ul>
-                                <li>Jazz House</li>
-                                <li>Electronic</li>
-                                <li>Rock</li>
-                            </ul>
+                            <div class="genre-container top-genre"></div>
+                            <div class="genre-container second-genre"></div>
+                            <div class="genre-container third-genre"></div>
                         </div>
                     </div>
                     <div class="col-md-4 adjusted-padding">
                         <div class="bg-grey rounded p-3 text-white h-100 d-flex flex-column min-height">
                             <h2>Most Recent Song</h2>
-                            <p>Latest Song: "Song Title"</p>
-                            <p>Artist: "Artist Name"</p>
+                            <div class="song-info">
+                                <img src="https://www.udiscovermusic.com/wp-content/uploads/2017/08/Pink-Floyd-Dark-Side-Of-The-Moon.jpg" alt="Album Cover" class="album-cover">
+                                <div class="song-details">
+                                    <p class="song-name">Latest Song:</p>
+                                    <p class="artist">Artist:</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
+
+                <!-- Additional container row for recent songs -->
+                <div class="row mt-2"> <!-- Adjusted margin-top -->
+                    <h2>Recent Songs You Added</h2>
+                </div>
+                <div class="row gy-4">
+                    <div class="col-md-2">
+                        <div class="bg-grey rounded p-3 text-white h-100 d-flex flex-column min-height">
+                            <img src="https://www.udiscovermusic.com/wp-content/uploads/2017/08/Pink-Floyd-Dark-Side-Of-The-Moon.jpg" alt="Album Cover 1">
+                            <p class="song-name">Song Name 1</p>
+                            <p class="artist">Artist Name 1</p>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="bg-grey rounded p-3 text-white h-100 d-flex flex-column min-height">
+                            <img src="https://assets-global.website-files.com/5e6a544cadf84b1393e2e022/611cfe2fe8dfe7fe77ba50c4_cri_000000319870%20(1).jpeg" alt="Album Cover 2">
+                            <p class="song-name">Song Name 2</p>
+                            <p class="artist">Artist Name 2</p>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="bg-grey rounded p-3 text-white h-100 d-flex flex-column min-height">
+                            <img src="https://www.billboard.com/wp-content/uploads/2023/07/rihanna-anti-cover-2016-billboard-1240.jpg?w=600" alt="Album Cover 3">
+                            <p class="song-name">Song Name 3</p>
+                            <p class="artist">Artist Name 3</p>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="bg-grey rounded p-3 text-white h-100 d-flex flex-column min-height">
+                            <img src="https://hips.hearstapps.com/hmg-prod/images/7-64ecb1c909b78.png?crop=0.502xw:1.00xh;0.498xw,0&resize=1200:*" alt="Album Cover 4">
+                            <p class="song-name">Song Name 4</p>
+                            <p class="artist">Artist Name 4</p>
+                        </div>
+                    </div>
+                    <div class="col-md-2">
+                        <div class="bg-grey rounded p-3 text-white h-100 d-flex flex-column min-height">
+                            <img src="https://www.fubiz.net/wp-content/uploads/2018/01/01-kendrick-lamar-damn-album-art-2017-billboard-1240.jpg" alt="Album Cover 5">
+                            <p class="song-name">Song Name 5</p>
+                            <p class="artist">Artist Name 5</p>
+                        </div>
+                    </div>
+                </div>
+                
                 <!-- Song list table -->
                 <div class="container-fluid bg-grey rounded p-3 text-white mt-4 song-list">
                     <h2>My Favorite Anthems</h2>
@@ -81,7 +127,7 @@ export default class extends AbstractView {
                         <div class="col">Duration</div>
                     </div>
                     <div class="row song-row">
-                        <div class="col-auto"><img src="https://www.fubiz.net/wp-content/uploads/2018/01/01-kendrick-lamar-damn-album-art-2017-billboard-1240.jpg" alt="Album Cover"></div>
+                        <div class="col-auto"><img src="album_cover_url" alt="Album Cover"></div>
                         <div class="col">Song Name</div>
                         <div class="col">Artist Name</div>
                         <div class="col">Genre</div>
@@ -91,49 +137,6 @@ export default class extends AbstractView {
                     <!-- Repeat the above .row.song-row for more songs -->
                 </div>
             </div>
-
-            <!-- Additional container row for recent songs -->
-            <div class="row mt-2"> <!-- Adjusted margin-top -->
-                <h2>Recent Songs You Added</h2>
-            </div>
-            <div class="row gy-4">
-                <div class="col-md-2">
-                    <div class="bg-grey rounded p-3 text-white h-100 d-flex flex-column min-height">
-                        <img src="https://www.udiscovermusic.com/wp-content/uploads/2017/08/Pink-Floyd-Dark-Side-Of-The-Moon.jpg" alt="Album Cover 1">
-                        <p class="song-name">Song Name 1</p>
-                        <p class="artist">Artist Name 1</p>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="bg-grey rounded p-3 text-white h-100 d-flex flex-column min-height">
-                        <img src="https://assets-global.website-files.com/5e6a544cadf84b1393e2e022/611cfe2fe8dfe7fe77ba50c4_cri_000000319870%20(1).jpeg" alt="Album Cover 2">
-                        <p class="song-name">Song Name 2</p>
-                        <p class="artist">Artist Name 2</p>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="bg-grey rounded p-3 text-white h-100 d-flex flex-column min-height">
-                        <img src="https://www.billboard.com/wp-content/uploads/2023/07/rihanna-anti-cover-2016-billboard-1240.jpg?w=600" alt="Album Cover 3">
-                        <p class="song-name">Song Name 3</p>
-                        <p class="artist">Artist Name 3</p>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="bg-grey rounded p-3 text-white h-100 d-flex flex-column min-height">
-                        <img src="https://hips.hearstapps.com/hmg-prod/images/7-64ecb1c909b78.png?crop=0.502xw:1.00xh;0.498xw,0&resize=1200:*" alt="Album Cover 4">
-                        <p class="song-name">Song Name 4</p>
-                        <p class="artist">Artist Name 4</p>
-                    </div>
-                </div>
-                <div class="col-md-2">
-                    <div class="bg-grey rounded p-3 text-white h-100 d-flex flex-column min-height">
-                        <img src="https://www.fubiz.net/wp-content/uploads/2018/01/01-kendrick-lamar-damn-album-art-2017-billboard-1240.jpg" alt="Album Cover 5">
-                        <p class="song-name">Song Name 5</p>
-                        <p class="artist">Artist Name 5</p>
-                    </div>
-                </div>
-            </div>
-            
         `;
     }
 
@@ -142,6 +145,8 @@ export default class extends AbstractView {
         const genres = await this.fetchGenreData();
         // Update the progress bars
         this.updateProgressBars(genres);
+        // Update the Top 3 Genres section
+        this.updateTopGenres(genres);
     }
 
     async fetchGenreData() {
@@ -171,5 +176,24 @@ export default class extends AbstractView {
         
         document.getElementById('classical-progress').style.width = `${genres.classical}%`;
         document.getElementById('classical-progress').setAttribute('aria-valuenow', genres.classical);
+    }
+
+    updateTopGenres(genres) {
+        const sortedGenres = Object.entries(genres).sort((a, b) => b[1] - a[1]);
+        const topGenresContainer = document.getElementById('top-genres-container');
+
+        const topGenresHTML = `
+            <div class="genre-container top-genre" style="background-color: brightblue;">
+                <p>${sortedGenres[0][0]}</p>
+            </div>
+            <div class="genre-container second-genre" style="background-color: darkblue;">
+                <p>${sortedGenres[1][0]}</p>
+            </div>
+            <div class="genre-container third-genre" style="background-color: greyblue;">
+                <p>${sortedGenres[2][0]}</p>
+            </div>
+        `;
+
+        topGenresContainer.innerHTML = topGenresHTML;
     }
 }

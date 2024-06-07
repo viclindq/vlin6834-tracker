@@ -236,12 +236,21 @@ a {
     margin-bottom: 10px;
     display: flex;
     align-items: center;
+    flex-direction: column; /* Display text in a column layout */
+    text-align: center; /* Center-align text */
 }
 
 .song-info img {
-    width: 50px;
+    width: 200px; /* Large square image */
+    height: 200px;
     border-radius: 8px;
-    margin-right: 10px;
+    margin-bottom: 10px; /* Add some space between image and text */
+    margin-top: 10px; /* Add some space between image and text */
+
+}
+
+.song-info .song-details {
+    flex-grow: 1; /* Allow to grow to fill space */
 }
 
 .song-info p {
@@ -250,7 +259,7 @@ a {
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    max-width: 150px; /* Adjust as needed */
+    max-width: 200px; /* Adjust as needed */
 }
 
 /* CSS for the progress bars */
@@ -320,3 +329,30 @@ a {
     object-fit: cover;
     border-radius: 4px;
 }
+
+/* CSS for the Top 3 Genres section */
+#top-genres-container .genre-container {
+    padding: 20px;
+    margin-bottom: 10px;
+    border-radius: 5px;
+    color: #ffffff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+}
+
+#top-genres-container .top-genre {
+    background-color: #01aef2;
+    flex: 1.5;
+}
+
+#top-genres-container .second-genre {
+    background-color: #0056b3;
+    flex: 1.2;
+}
+
+#top-genres-container .third-genre {
+    background-color: #3e4b58;
+    flex: 1;
+} 
