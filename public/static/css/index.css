@@ -1,8 +1,8 @@
 body {
-    --nav-width: 300px; /* Increased from 200px to 250px */
+    --nav-width: 300px; /* Increased from 200px to 300px */
     margin: 0 0 0 var(--nav-width);
     font-family: 'Quicksand', sans-serif;
-    font-size: 18px;
+    font-size: 19px;
 }
 
 .nav {
@@ -47,15 +47,25 @@ a {
     margin-bottom: 1px;
 }
 
-.profile__image {
-    width: 100px;
-    height: 100px;
+.profile__image-wrapper {
+    width: 150px;
+    height: 150px;
     border-radius: 50%;
+    overflow: hidden;
+    display: flex; /* Added */
+    justify-content: center; /* Added */
+    align-items: center; /* Added */
+    margin: 0 auto; /* Centering the wrapper */
+}
+
+.profile__image {
+    width: auto;
+    height: 300px; /* Increased size to zoom in */
     object-fit: cover;
 }
 
 .profile__name {
-    color: #3b91c2; /* Slightly darker blue */
+    color: #01aef1; /* Slightly darker blue */
     font-size: 1.5em;
     margin-top: 10px;
 }
