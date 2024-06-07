@@ -1,8 +1,10 @@
 body {
-    --nav-width: 300px; /* Increased from 200px to 300px */
+    --nav-width: 300px;
     margin: 0 0 0 var(--nav-width);
     font-family: 'Quicksand', sans-serif;
     font-size: 19px;
+    background-color: #151515;
+    color: #ffffff;
 }
 
 .nav {
@@ -28,8 +30,8 @@ body {
 
 .nav__link:hover {
     background: rgba(255, 255, 255, 0.05);
-    width: 100%; /* Added to cover the full width */
-    text-align: center; /* Added to align the text to the center */
+    width: 100%;
+    text-align: center;
 }
 
 #app {
@@ -52,20 +54,98 @@ a {
     height: 150px;
     border-radius: 50%;
     overflow: hidden;
-    display: flex; /* Added */
-    justify-content: center; /* Added */
-    align-items: center; /* Added */
-    margin: 0 auto; /* Centering the wrapper */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 auto;
 }
 
 .profile__image {
     width: auto;
-    height: 300px; /* Increased size to zoom in */
+    height: 300px;
     object-fit: cover;
 }
 
 .profile__name {
-    color: #01aef1; /* Slightly darker blue */
+    color: #01aef1;
     font-size: 1.5em;
     margin-top: 10px;
+}
+
+/* Custom styles for the containers */
+.bg-grey {
+    background-color: #222222 !important;
+}
+
+.rounded {
+    border-radius: 16px !important;
+}
+
+.text-white {
+    color: #ffffff !important;
+}
+
+.p-3 {
+    padding: 1rem !important;
+}
+
+/* Flexbox utilities to ensure equal height columns */
+.d-flex {
+    display: flex !important;
+}
+
+.flex-column {
+    flex-direction: column !important;
+}
+
+.h-100 {
+    height: 100% !important;
+}
+
+/* Dashboard background */
+.dashboard-bg {
+    background-color: #151515;
+    padding: 2rem;
+    border-radius: 16px;
+}
+
+/* Custom class to set minimum height for the columns */
+.min-height {
+    min-height: 300px; /* Adjust the value as needed */
+}
+
+/* Remove padding/margin for equal widths */
+.container-fluid {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+.row {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.no-gutters {
+    margin-left: 0;
+    margin-right: 0;
+}
+
+.no-gutters > .col-md-4 {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+/* Adjusted padding for the second row columns */
+.col-md-4.adjusted-padding {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+/* Custom classes for first and last columns */
+.pl-0 {
+    padding-left: 0 !important;
+}
+
+.pr-0 {
+    padding-right: 0 !important;
 }
