@@ -2,6 +2,7 @@
   "name": "vlin6834-tracker",
   "version": "1.0.0",
   "description": "Music Tracker A3 for DECO2017!",
+  "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "node server.js",
