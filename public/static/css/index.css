@@ -136,8 +136,17 @@ a {
     padding-right: 0;
 }
 
-/* Adjusted padding for the second row columns */
-.col-md-4.adjusted-padding {
+.col-md-4.left {
+    padding-left: 0px;
+    padding-right: 10px;
+}
+
+.col-md-4.right {
+    padding-left: 10px;
+    padding-right: 0px;
+}
+
+.col-md-4.middle {
     padding-left: 10px;
     padding-right: 10px;
 }
@@ -158,8 +167,19 @@ a {
 }
 
 /* Styling for each song column */
-.col-md-2 {
-    padding: 0 9px; /* Adjust as needed */
+.col-md-2.left {
+    padding-left: 0px;
+    padding-right: 9px;
+}
+
+.col-md-2.middle {
+    padding-left: 9px;
+    padding-right: 9px;
+}
+
+.col-md-2.right {
+    padding-left: 9px;
+    padding-right: 0px;
 }
 
 /* Album cover image */
@@ -184,4 +204,119 @@ a {
 .col-md-2 {
     flex: 1;
     max-width: calc(20% - 5px); /* 20% width with 10px padding */
+}
+
+/* Additional CSS for song list */
+.song-list {
+    margin-top: 20px;
+}
+
+.song-list .row {
+    margin-bottom: 20px;
+}
+
+.song-list .col-auto {
+    flex: 0 0 auto;
+}
+
+.song-list .col {
+    flex: 1 1 0;
+}
+
+.song-list img {
+    width: 50px;
+    border-radius: 8px;
+}
+
+/* CSS for the song information layout */
+.song-info {
+    background-color: #545454;
+    padding: 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+}
+
+.song-info img {
+    width: 50px;
+    border-radius: 8px;
+    margin-right: 10px;
+}
+
+.song-info p {
+    margin: 0;
+    font-size: 14px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 150px; /* Adjust as needed */
+}
+
+/* CSS for the progress bars */
+.genre-percentage {
+    margin-bottom: 1rem;
+}
+
+.genre-percentage label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-size: 16px;
+    color: #ffffff;
+}
+
+.progress {
+    height: 20px;
+    background-color: #333;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.progress-bar {
+    height: 100%;
+    background-color: #01aef1;
+    text-align: center;
+    white-space: nowrap;
+    color: #ffffff;
+    transition: width 0.6s ease;
+}
+
+/* Styling for the song list table */
+.song-list {
+    margin-top: 20px;
+}
+
+.song-list .header {
+    font-weight: bold;
+    border-bottom: 2px solid #ffffff;
+    margin-bottom: 10px;
+}
+
+.song-list .row {
+    display: flex;
+    align-items: center;
+    padding: 5px 0;
+}
+
+.song-list .row.header {
+    background-color: #333333;
+}
+
+.song-list .row.song-row {
+    background-color: #444444;
+    margin-bottom: 5px;
+    border-radius: 8px;
+}
+
+.song-list .col-auto,
+.song-list .col {
+    padding: 5px;
+    text-align: center;
+}
+
+.song-list img {
+    width: 40px;
+    height: 40px;
+    object-fit: cover;
+    border-radius: 4px;
 }

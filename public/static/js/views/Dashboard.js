@@ -19,7 +19,36 @@ export default class extends AbstractView {
                     <div class="col-md-4">
                         <div class="bg-grey rounded p-3 text-white h-100 d-flex flex-column min-height">
                             <h2>Music Taste Report</h2>
-                            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.</p>
+                            <div class="genre-percentage">
+                                <label>Pop</label>
+                                <div class="progress">
+                                    <div class="progress-bar" id="pop-progress" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="genre-percentage">
+                                <label>Rap</label>
+                                <div class="progress">
+                                    <div class="progress-bar" id="rap-progress" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="genre-percentage">
+                                <label>Rock</label>
+                                <div class="progress">
+                                    <div class="progress-bar" id="rock-progress" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="genre-percentage">
+                                <label>Jazz</label>
+                                <div class="progress">
+                                    <div class="progress-bar" id="jazz-progress" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="genre-percentage">
+                                <label>Classical</label>
+                                <div class="progress">
+                                    <div class="progress-bar" id="classical-progress" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                     <div class="col-md-4 adjusted-padding">
@@ -40,10 +69,9 @@ export default class extends AbstractView {
                         </div>
                     </div>
                 </div>
-                
 
                 <!-- Additional container row for recent songs -->
-                <div class="row mt-2">
+                <div class="row mt-2"> <!-- Adjusted margin-top -->
                     <h2>Recent Songs You Added</h2>
                 </div>
                 <div class="row gy-4">
@@ -83,7 +111,65 @@ export default class extends AbstractView {
                         </div>
                     </div>
                 </div>
+                
+                <!-- Song list table -->
+                <div class="container-fluid bg-grey rounded p-3 text-white mt-4 song-list">
+                    <h2>My Favorite Anthems</h2>
+                    <div class="row header">
+                        <div class="col-auto">Cover</div>
+                        <div class="col">Song</div>
+                        <div class="col">Artist</div>
+                        <div class="col">Genre</div>
+                        <div class="col">Date Added</div>
+                        <div class="col">Duration</div>
+                    </div>
+                    <div class="row song-row">
+                        <div class="col-auto"><img src="https://www.fubiz.net/wp-content/uploads/2018/01/01-kendrick-lamar-damn-album-art-2017-billboard-1240.jpg" alt="Album Cover"></div>
+                        <div class="col">Song Name</div>
+                        <div class="col">Artist Name</div>
+                        <div class="col">Genre</div>
+                        <div class="col">Date Added</div>
+                        <div class="col">Duration</div>
+                    </div>
+                    <!-- Repeat the above .row.song-row for more songs -->
+                </div>
             </div>
         `;
+    }
+
+    async onRender() {
+        // Fetch genre data from the API
+        const genres = await this.fetchGenreData();
+        // Update the progress bars
+        this.updateProgressBars(genres);
+    }
+
+    async fetchGenreData() {
+        // Replace this with actual API call logic
+        // This is just a placeholder example
+        return {
+            pop: 30,
+            rap: 20,
+            rock: 25,
+            jazz: 15,
+            classical: 10
+        };
+    }
+
+    updateProgressBars(genres) {
+        document.getElementById('pop-progress').style.width = `${genres.pop}%`;
+        document.getElementById('pop-progress').setAttribute('aria-valuenow', genres.pop);
+        
+        document.getElementById('rap-progress').style.width = `${genres.rap}%`;
+        document.getElementById('rap-progress').setAttribute('aria-valuenow', genres.rap);
+        
+        document.getElementById('rock-progress').style.width = `${genres.rock}%`;
+        document.getElementById('rock-progress').setAttribute('aria-valuenow', genres.rock);
+        
+        document.getElementById('jazz-progress').style.width = `${genres.jazz}%`;
+        document.getElementById('jazz-progress').setAttribute('aria-valuenow', genres.jazz);
+        
+        document.getElementById('classical-progress').style.width = `${genres.classical}%`;
+        document.getElementById('classical-progress').setAttribute('aria-valuenow', genres.classical);
     }
 }
