@@ -482,3 +482,22 @@ a {
 .hidden {
     display: none;
 }
+
+/* Adjust the margin between the "Recent Songs You Added" section and the recent songs */
+.row.mt-2 {
+    margin-top: 20px;
+}
+
+/* Style the album cover image */
+.bg-grey img {
+    width: 100%;
+    height: auto; /* Maintain aspect ratio */
+    max-height: 100px; /* Adjust as needed */
+}
+
+/* Style the song name and artist text */
+.bg-grey .song-name,
+.bg-grey .artist {
+    font-size: 14px;
+    margin-top: 10px;
+}
