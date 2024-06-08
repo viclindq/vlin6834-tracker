@@ -73,48 +73,6 @@ export default class extends AbstractView {
                     </div>
                 </div>
 
-                <!-- Additional container row for recent songs -->
-                <div class="row mt-2"> <!-- Adjusted margin-top -->
-                    <h2>Recent Songs You Added</h2>
-                </div>
-                <div class="row gy-4">
-                    <div class="col-md-2">
-                        <div class="bg-grey rounded p-3 text-white h-100 d-flex flex-column min-height">
-                            <img src="https://www.udiscovermusic.com/wp-content/uploads/2017/08/Pink-Floyd-Dark-Side-Of-The-Moon.jpg" alt="Album Cover 1">
-                            <p class="song-name">Song Name 1</p>
-                            <p class="artist">Artist Name 1</p>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="bg-grey rounded p-3 text-white h-100 d-flex flex-column min-height">
-                            <img src="https://assets-global.website-files.com/5e6a544cadf84b1393e2e022/611cfe2fe8dfe7fe77ba50c4_cri_000000319870%20(1).jpeg" alt="Album Cover 2">
-                            <p class="song-name">Song Name 2</p>
-                            <p class="artist">Artist Name 2</p>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="bg-grey rounded p-3 text-white h-100 d-flex flex-column min-height">
-                            <img src="https://www.billboard.com/wp-content/uploads/2023/07/rihanna-anti-cover-2016-billboard-1240.jpg?w=600" alt="Album Cover 3">
-                            <p class="song-name">Song Name 3</p>
-                            <p class="artist">Artist Name 3</p>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="bg-grey rounded p-3 text-white h-100 d-flex flex-column min-height">
-                            <img src="https://hips.hearstapps.com/hmg-prod/images/7-64ecb1c909b78.png?crop=0.502xw:1.00xh;0.498xw,0&resize=1200:*" alt="Album Cover 4">
-                            <p class="song-name">Song Name 4</p>
-                            <p class="artist">Artist Name 4</p>
-                        </div>
-                    </div>
-                    <div class="col-md-2">
-                        <div class="bg-grey rounded p-3 text-white h-100 d-flex flex-column min-height">
-                            <img src="https://www.fubiz.net/wp-content/uploads/2018/01/01-kendrick-lamar-damn-album-art-2017-billboard-1240.jpg" alt="Album Cover 5">
-                            <p class="song-name">Song Name 5</p>
-                            <p class="artist">Artist Name 5</p>
-                        </div>
-                    </div>
-                </div>
-                
                 <!-- Song list table -->
                 <div class="container-fluid bg-grey rounded p-3 text-white mt-4 song-list">
                     <h2>My Favorite Anthems</h2>
@@ -126,18 +84,18 @@ export default class extends AbstractView {
                         <div class="col">Date Added</div>
                         <div class="col">Duration</div>
                     </div>
-                    <div class="row song-row">
-                        <div class="col-auto"><img src="album_cover_url" alt="Album Cover"></div>
-                        <div class="col">Song Name</div>
-                        <div class="col">Artist Name</div>
-                        <div class="col">Genre</div>
-                        <div class="col">Date Added</div>
-                        <div class="col">Duration</div>
+                    <div class="row gy-4" id="favorite-songs-container">
+                        <!-- Favorite songs will be loaded here -->
                     </div>
-                    <!-- Repeat the above .row.song-row for more songs -->
                 </div>
-            </div>
-        `;
+                <!-- Additional container row for recent songs -->
+                <div class="container-fluid bg-grey rounded p-3 text-white mt-4 recent-songs-container" id="recent-songs-container">
+                    <h2>Recent Songs You Added</h2>
+                    <div class="row gy-4">
+                        <!-- Recent songs will be loaded here -->
+                    </div>
+                </div>
+            `;
     }
 
     async onRender() {
@@ -147,6 +105,8 @@ export default class extends AbstractView {
         this.updateProgressBars(genres);
         // Update the Top 3 Genres section
         this.updateTopGenres(genres);
+
+        await this.loadFavSongs();
     }
 
     async fetchGenreData() {
@@ -161,39 +121,54 @@ export default class extends AbstractView {
         };
     }
 
-    updateProgressBars(genres) {
-        document.getElementById('pop-progress').style.width = `${genres.pop}%`;
-        document.getElementById('pop-progress').setAttribute('aria-valuenow', genres.pop);
-        
-        document.getElementById('rap-progress').style.width = `${genres.rap}%`;
-        document.getElementById('rap-progress').setAttribute('aria-valuenow', genres.rap);
-        
-        document.getElementById('rock-progress').style.width = `${genres.rock}%`;
-        document.getElementById('rock-progress').setAttribute('aria-valuenow', genres.rock);
-        
-        document.getElementById('jazz-progress').style.width = `${genres.jazz}%`;
-        document.getElementById('jazz-progress').setAttribute('aria-valuenow', genres.jazz);
-        
-        document.getElementById('classical-progress').style.width = `${genres.classical}%`;
-        document.getElementById('classical-progress').setAttribute('aria-valuenow', genres.classical);
+    async loadFavSongs() {
+        console.log("I am loading saved songs");
+        const savedSongs = JSON.parse(localStorage.getItem('savedSongs'));
+        const favoriteContainer = document.getElementById('favorite-songs-container');
+        const recentContainer = document.querySelector('#recent-songs-container .row');
+
+        if (!savedSongs || savedSongs.length === 0) {
+            favoriteContainer.innerHTML = `<p>No favorite songs added yet.</p>`;
+            recentContainer.innerHTML = `<p>No recent songs added yet.</p>`;
+            return;
+        }
+        favoriteContainer.innerHTML = savedSongs.map(song => this.generateFavoriteSongHTML(song)).join('');
+
+        // Sort the songs by date added in descending order
+        savedSongs.sort((a, b) => new Date(JSON.parse(b).addedTime) - new Date(JSON.parse(a).addedTime));
+
+        // Take the last 5 most recently added songs
+        const recentSongs = savedSongs.slice(-5).reverse(); // Reverse to show the latest added on the left
+
+        // Generate HTML for each recent song and populate the container
+        recentContainer.innerHTML = recentSongs.map((song, index) => this.generateRecentSongHTML(song, index)).join('');
     }
 
-    updateTopGenres(genres) {
-        const sortedGenres = Object.entries(genres).sort((a, b) => b[1] - a[1]);
-        const topGenresContainer = document.getElementById('top-genres-container');
-
-        const topGenresHTML = `
-            <div class="genre-container top-genre" style="background-color: brightblue;">
-                <p>${sortedGenres[0][0]}</p>
-            </div>
-            <div class="genre-container second-genre" style="background-color: darkblue;">
-                <p>${sortedGenres[1][0]}</p>
-            </div>
-            <div class="genre-container third-genre" style="background-color: greyblue;">
-                <p>${sortedGenres[2][0]}</p>
+    generateFavoriteSongHTML(song) {
+        const { title, artist, genre, duration, album } = JSON.parse(song);
+        return `
+            <div class="row song-row">
+                <div class="col-auto"><img src="${album.cover}" alt="Album Cover" style="max-width: 50px;"></div>
+                <div class="col" style="font-size: 14px;">${title}</div>
+                <div class="col" style="font-size: 14px;">${artist.name}</div>
+                <div class="col" style="font-size: 14px;">${genre}</div>
+                <div class="col" style="font-size: 14px;">${new Date().toLocaleDateString()}</div>
+                <div class="col" style="font-size: 14px;">${Math.floor(duration / 60)}:${duration % 60}</div>
             </div>
         `;
+    }
 
-        topGenresContainer.innerHTML = topGenresHTML;
+    generateRecentSongHTML(song, index) {
+        const { title, artist, album } = JSON.parse(song);
+        const columnClasses = ['col-md-2 left', 'col-md-2 middle', 'col-md-2 middle', 'col-md-2 middle', 'col-md-2 right'];
+        return `
+            <div class="${columnClasses[index]}">
+                <div class="bg-light-grey rounded p-3 text-white h-100 d-flex flex-column min-height">
+                    <img src="${album.cover}" alt="Album Cover" class="album-cover">
+                    <p class="song-name" style="font-size: 18px; margin-bottom: 2px;">${title}</p>
+                    <p class="artist" style="font-size: 13px; margin-top: 2px;">${artist.name}</p>
+                </div>
+            </div>
+        `;
     }
 }

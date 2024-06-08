@@ -24,9 +24,9 @@ export default class extends AbstractView {
                 </div>
             </div>
             <!-- Additional container row for recent songs -->
-            
             <div class="container-fluid bg-grey rounded p-3 text-white mt-4 recent-songs-container" id="recent-songs-container">
             <h2>Recent Songs You Added</h2>
+
             <div class="row gy-4">
                     <!-- Recent songs will be loaded here -->
                 </div>
