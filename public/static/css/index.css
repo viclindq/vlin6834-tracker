@@ -2,30 +2,30 @@
 /* Container for the recent songs */
 /* Adjust font sizes for recent songs */
 
-
-
-.recent-songs-container .song-name {
-    font-size: 18px; /* Smaller font size for song title */
-    margin-bottom: 2px;
+/* Adjust font sizes and margins for recent songs */
+div.recent-songs-container .song-name {
+    font-size: 18px; /* Bigger font size for song title */
+    margin-bottom: 5px; /* Increased margin bottom for song title */
     margin-top: 5px;
 }
 
-.recent-songs-container .artist {
-    font-size: 12px; /* Even smaller font size for artist name */
+div.recent-songs-container .artist {
+    font-size: 14px; /* Slightly bigger font size for artist name */
     color: #aaaaaa; /* Light grey color for the artist name */
     margin-top: 2px;
+    margin-bottom: 2px; /* Decreased margin bottom for artist name */
 }
 
 /* Styling for each song column */
-.col-md-2 {
+div.col-md-2 {
     padding: 10px; /* Add padding between the columns */
 }
 
-.bg-light-grey {
+div.bg-light-grey {
     background-color: #444444; /* Slightly lighter grey background */
 }
 
-.album-cover {
+img.album-cover {
     width: 100%;
     height: auto;
     aspect-ratio: 1 / 1;
@@ -33,14 +33,15 @@
     border-radius: 8px;
 }
 
-.song-name {
+p.song-name {
     margin-bottom: 2px;
 }
 
-.artist {
+p.artist {
     margin-top: 2px;
     color: #aaaaaa;
 }
+
 
 /* Existing CSS */
 body {

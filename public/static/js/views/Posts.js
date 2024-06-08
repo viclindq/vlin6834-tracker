@@ -24,11 +24,10 @@ export default class extends AbstractView {
                 </div>
             </div>
             <!-- Additional container row for recent songs -->
-            <div class="row mt-2"> <!-- Adjusted margin-top -->
-                <h2>Recent Songs You Added</h2>
-            </div>
+            
             <div class="container-fluid bg-grey rounded p-3 text-white mt-4 recent-songs-container" id="recent-songs-container">
-                <div class="row gy-4">
+            <h2>Recent Songs You Added</h2>
+            <div class="row gy-4">
                     <!-- Recent songs will be loaded here -->
                 </div>
             </div>
@@ -52,11 +51,11 @@ export default class extends AbstractView {
         // Sort the songs by date added in descending order
         savedSongs.sort((a, b) => new Date(JSON.parse(b).addedTime) - new Date(JSON.parse(a).addedTime));
 
-        // Take the top 5 most recently added songs
-        const recentSongs = savedSongs.slice(0, 5);
+        // Take the last 5 most recently added songs
+        const recentSongs = savedSongs.slice(-5).reverse(); // Reverse to show the latest added on the left
 
         // Generate HTML for each recent song and populate the container
-        recentContainer.innerHTML = recentSongs.map(song => this.generateRecentSongHTML(song)).join('');
+        recentContainer.innerHTML = recentSongs.map((song, index) => this.generateRecentSongHTML(song, index)).join('');
     }
 
     generateFavoriteSongHTML(song) {
@@ -73,14 +72,15 @@ export default class extends AbstractView {
         `;
     }
 
-    generateRecentSongHTML(song) {
+    generateRecentSongHTML(song, index) {
         const { title, artist, album } = JSON.parse(song);
+        const columnClasses = ['col-md-2 left', 'col-md-2 middle', 'col-md-2 middle', 'col-md-2 middle', 'col-md-2 right'];
         return `
-            <div class="col-md-2">
+            <div class="${columnClasses[index]}">
                 <div class="bg-light-grey rounded p-3 text-white h-100 d-flex flex-column min-height">
                     <img src="${album.cover}" alt="Album Cover" class="album-cover">
-                    <p class="song-name">${title}</p>
-                    <p class="artist">${artist.name}</p>
+                    <p class="song-name" style="font-size: 18px; margin-bottom: 2px;">${title}</p>
+                    <p class="artist" style="font-size: 13px; margin-top: 2px;">${artist.name}</p>
                 </div>
             </div>
         `;
