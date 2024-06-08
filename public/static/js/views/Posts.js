@@ -75,4 +75,10 @@ export default class extends AbstractView {
     </div>
         `;
     }
+
+    async loadFavSongs() {
+        console.log("I am loading saved songs");
+        const savedSongs = JSON.parse(localStorage.getItem('savedSongs'));
+        console.log(savedSongs);
+    }
 }

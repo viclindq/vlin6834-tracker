@@ -18,4 +18,8 @@ export default class {
     async searchSong(query) {
         return;
     }
+
+    async loadFavSongs() {
+        return;
+    }
 }
