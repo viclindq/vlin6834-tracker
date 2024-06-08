@@ -8,7 +8,15 @@ export default class extends AbstractView {
 
     async getHtml() {
         return `
-            <!-- Song list table -->
+        <!-- Additional container row for recent songs -->
+        <div class="container-fluid bg-grey rounded p-3 text-white mt-4 recent-songs-container" id="recent-songs-container">
+        <h2>Recent Songs You Added</h2>
+
+        <div class="row gy-4">
+                <!-- Recent songs will be loaded here -->
+            </div>
+        </div>
+        <!-- Song list table -->
             <div class="container-fluid bg-grey rounded p-3 text-white mt-4 song-list">
                 <h2>My Favorite Anthems</h2>
                 <div class="row header">
@@ -23,14 +31,7 @@ export default class extends AbstractView {
                     <!-- Favorite songs will be loaded here -->
                 </div>
             </div>
-            <!-- Additional container row for recent songs -->
-            <div class="container-fluid bg-grey rounded p-3 text-white mt-4 recent-songs-container" id="recent-songs-container">
-            <h2>Recent Songs You Added</h2>
-
-            <div class="row gy-4">
-                    <!-- Recent songs will be loaded here -->
-                </div>
-            </div>
+           
         `;
     }
 

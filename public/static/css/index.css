@@ -2,6 +2,29 @@
 /* Container for the recent songs */
 /* Adjust font sizes for recent songs */
 
+/* Styling for the most recent song container */
+#most-recent-song-container {
+    text-align: center;
+}
+
+#most-recent-song-container .album-cover {
+    width: 200px;
+    height: 200px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+#most-recent-song-container .song-name {
+    font-size: 18px;
+    margin-bottom: 5px;
+}
+
+#most-recent-song-container .artist {
+    font-size: 14px;
+    color: #aaaaaa;
+    margin-top: 2px;
+}
+
 /* Adjust font sizes and margins for recent songs */
 div.recent-songs-container .song-name {
     font-size: 18px; /* Bigger font size for song title */
