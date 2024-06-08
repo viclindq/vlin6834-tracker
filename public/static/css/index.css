@@ -1,3 +1,47 @@
+/* Add styles for the recent songs section */
+/* Container for the recent songs */
+/* Adjust font sizes for recent songs */
+
+
+
+.recent-songs-container .song-name {
+    font-size: 18px; /* Smaller font size for song title */
+    margin-bottom: 2px;
+    margin-top: 5px;
+}
+
+.recent-songs-container .artist {
+    font-size: 12px; /* Even smaller font size for artist name */
+    color: #aaaaaa; /* Light grey color for the artist name */
+    margin-top: 2px;
+}
+
+/* Styling for each song column */
+.col-md-2 {
+    padding: 10px; /* Add padding between the columns */
+}
+
+.bg-light-grey {
+    background-color: #444444; /* Slightly lighter grey background */
+}
+
+.album-cover {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    object-fit: cover;
+    border-radius: 8px;
+}
+
+.song-name {
+    margin-bottom: 2px;
+}
+
+.artist {
+    margin-top: 2px;
+    color: #aaaaaa;
+}
+
 /* Existing CSS */
 body {
     --nav-width: 300px;
@@ -160,46 +204,6 @@ a {
     padding-right: 0 !important;
 }
 
-/* Add styles for the recent songs section */
-/* Container for the recent songs */
-.recent-songs-container {
-    margin-top: 20px;
-}
-
-/* Styling for each song column */
-.col-md-2.left {
-    padding-left: 0px;
-    padding-right: 9px;
-}
-
-.col-md-2.middle {
-    padding-left: 9px;
-    padding-right: 9px;
-}
-
-.col-md-2.right {
-    padding-left: 9px;
-    padding-right: 0px;
-}
-
-/* Album cover image */
-.col-md-2 img {
-    width: 100%;
-    border-radius: 8px;
-}
-
-/* Song name */
-.col-md-2 .song-name {
-    margin-top: 10px;
-    font-weight: bold;
-}
-
-/* Artist name */
-.col-md-2 .artist {
-    font-size: 14px;
-    color: #aaaaaa;
-}
-
 /* Adjust column width for recent songs */
 .col-md-2 {
     flex: 1;
@@ -246,7 +250,6 @@ a {
     border-radius: 8px;
     margin-bottom: 10px; /* Add some space between image and text */
     margin-top: 10px; /* Add some space between image and text */
-
 }
 
 .song-info .song-details {
@@ -481,23 +484,4 @@ a {
 /* Hide the song details container initially */
 .hidden {
     display: none;
-}
-
-/* Adjust the margin between the "Recent Songs You Added" section and the recent songs */
-.row.mt-2 {
-    margin-top: 20px;
-}
-
-/* Style the album cover image */
-.bg-grey img {
-    width: 100%;
-    height: auto; /* Maintain aspect ratio */
-    max-height: 100px; /* Adjust as needed */
-}
-
-/* Style the song name and artist text */
-.bg-grey .song-name,
-.bg-grey .artist {
-    font-size: 14px;
-    margin-top: 10px;
 }
