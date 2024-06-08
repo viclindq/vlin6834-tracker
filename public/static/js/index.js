@@ -47,6 +47,11 @@ const router = async () => {
     const view = new match.route.view(getParams(match));
 
     document.querySelector("#app").innerHTML = await view.getHtml();
+
+    // Call the loadScript method if it exists
+    if (typeof view.loadScript === "function") {
+        await view.loadScript();
+    }
 };
 
 window.addEventListener("popstate", router);

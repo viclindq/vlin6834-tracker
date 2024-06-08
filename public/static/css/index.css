@@ -426,3 +426,59 @@ a {
     text-align: center;
 }
 
+/* Search Container */
+.search-container {
+    display: flex;
+    align-items: center;
+    margin-top: 20px;
+}
+
+#search-input {
+    flex: 1;
+    padding: 10px;
+    font-size: 16px;
+}
+
+#order-select {
+    margin-left: 10px;
+    padding: 10px;
+    font-size: 16px;
+}
+
+#search-button {
+    margin-left: 10px;
+}
+
+/* Song Details Container */
+.song-details {
+    margin-top: 20px;
+    text-align: center;
+    background-color: #222222;
+    padding: 20px;
+    border-radius: 10px;
+}
+
+.song-details img {
+    width: 200px;
+    height: 200px;
+    object-fit: cover;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.song-details .song-name {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.song-details .song-artist,
+.song-details .song-duration {
+    font-size: 18px;
+    margin-bottom: 10px;
+}
+
+/* Hide the song details container initially */
+.hidden {
+    display: none;
+}

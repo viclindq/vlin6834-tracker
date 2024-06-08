@@ -9,7 +9,7 @@ This project uses git and github for tracking changes and managing development. 
 ## Features
 
 ## Setup
-No setup is required.
+In order resolve the CORS proxy, please go to https://cors-anywhere.herokuapp.com/ and request temporary access for CORS server. This is needed because Deezer doesn't allow 
 
 ## Usage
 There are two options:

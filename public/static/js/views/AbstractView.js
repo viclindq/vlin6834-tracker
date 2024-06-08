@@ -10,4 +10,12 @@ export default class {
     async getHtml() {
         return "";
     }
+
+    async loadScripts() {
+        return;
+    }
+
+    async searchSong(query) {
+        return;
+    }
 }
