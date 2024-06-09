@@ -1,4 +1,3 @@
-
 import AbstractView from "./AbstractView.js";
 
 export default class extends AbstractView {
@@ -42,6 +41,9 @@ export default class extends AbstractView {
                 <p id="song-artist" class="song-artist"></p>
                 <p id="song-duration" class="song-duration"></p>
                 <p id="genres" class="genres"></p>
+                <p id="release-date" class="release-date"></p>
+                <p id="deezer-rank" class="deezer-rank"></p>
+                <p id="explicit-lyrics" class="explicit-lyrics"></p>
                 <button id="add-song-button" class="btn btn-success">Add Song to My Favorite Anthems</button>
             </div>
         `;
@@ -53,48 +55,41 @@ export default class extends AbstractView {
             const response = await fetch(url);
             const album = await response.json();
             if (album) {
-                console.log(album.genres)
-                return album.genres.data[0].name;
+                const genre = album.genres.data[0].name;
+                const releaseDate = album.release_date;
+                return { genre, releaseDate };
             } else {
                 throw new Error("Couldn't find such album");
             }
         } catch (error) {
-            console.error('Error fetching genre data', error);
+            console.error('Error fetching album data:', error);
         }
     }
     
     async searchSong(query) {
-        console.log("i entered")
         const url = `https://cors-anywhere.herokuapp.com/https://api.deezer.com/search?q=track:"${encodeURIComponent(query)}"`;
-        console.log(url);
         try {
-            console.log("I AM FETCHING");
             const response = await fetch(url)
             const data = await response.json();
             if (data && Array.isArray(data.data) && data.data.length > 0) {
                 var song = data.data[0];
                 const albumId = song.album.id;
-                const genre = await this.getMainGenre(albumId);
+                const { genre, releaseDate } = await this.getMainGenre(albumId);
                 song.genre = genre;
+                song.release_date = releaseDate;
                 this.displaySongDetails(song);
             } else {
                 alert("No songs found.");
             }
-            console.log(data);
         } catch (error) {
             console.error('Error fetching song data:', error);
         }
     }
 
     async loadScript() {
-        console.log("I AM INSIDE LOAD SCript");
         document.getElementById('search-button').addEventListener('click', async () => {
             const query = document.getElementById('search-input').value;
-            console.log(query);
-            // const order = document.getElementById('order-select').value;
-            // console.log(order);
             if (query) {
-                console.log("I AM ABOUT TO SEARCH");
                 await this.searchSong(query);
             }
         });
@@ -104,19 +99,48 @@ export default class extends AbstractView {
         const songDetails = document.getElementById('song-details');
         document.getElementById('song-cover').src = song.album.cover_big;
         document.getElementById('song-name').textContent = song.title;
-        document.getElementById('song-artist').textContent = song.artist.name;
+        document.getElementById('song-artist').textContent = `Artist: ${song.artist.name}`;
         document.getElementById('song-duration').textContent = `Duration: ${Math.floor(song.duration / 60)}:${song.duration % 60}`;
         document.getElementById('genres').textContent = `Genre: ${song.genre}`;
-
+        document.getElementById('release-date').textContent = song.release_date ? `Release Date: ${song.release_date}` : 'Release Date: Unknown';
+    
+        // Display Deezer rank and explicit lyrics information
+        const deezerRank = song.rank || 'N/A';
+        const explicitLyrics = this.getExplicitLyricsDescription(song.explicit_content_lyrics);
+        document.getElementById('deezer-rank').textContent = `Deezer Rank: ${deezerRank}`;
+        document.getElementById('explicit-lyrics').textContent = `Explicit Content Lyrics: ${explicitLyrics}`;
+    
         songDetails.classList.remove('hidden');
-        console.log(`Current saved sonogs not including this song are: ${localStorage.getItem('savedSongs')}`);
+    
         document.getElementById('add-song-button').addEventListener('click', () => {
             this.addSongToFavorites(song);
         });
     }
 
+    getExplicitLyricsDescription(explicitContentLyrics) {
+        switch (explicitContentLyrics) {
+            case 0:
+                return "Not Explicit";
+            case 1:
+                return "Explicit";
+            case 2:
+                return "Unknown";
+            case 3:
+                return "Edited";
+            case 4:
+                return "Partially Explicit (Album 'lyrics' only)";
+            case 5:
+                return "Partially Unknown (Album 'lyrics' only)";
+            case 6:
+                return "No Advice Available";
+            case 7:
+                return "Partially No Advice Available (Album 'lyrics' only)";
+            default:
+                return "Unknown";
+        }
+    }
+
     addSongToFavorites(song) {
-        console.log('Adding song to favorites:', song);
         const addedTime = Date.now();
         var savedSongs = JSON.parse(localStorage.getItem('savedSongs'));
         if (savedSongs === null || savedSongs.length === 0) {

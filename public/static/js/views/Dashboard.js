@@ -44,7 +44,6 @@ export default class extends AbstractView {
                                 </div>
                             </div>
                             <div class="genre-percentage">
-                                <p>Average Explicit Content: <span id="avg-explicit-content"></span></p>
                                 <div class="progress">
                                     <div class="progress-bar" id="jazz-progress" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
@@ -123,8 +122,46 @@ export default class extends AbstractView {
         // Calculate and display the number of different genres
         const numberOfGenres = await this.calculateNumberOfGenres();
         document.getElementById('genres-number').innerText = numberOfGenres;
-    };
 
+        // Calculate and display the average Deezer rank
+    const avgDeezerRank = await this.calculateAverageDeezerRank();
+    document.getElementById('avg-deezer-rank').innerText = avgDeezerRank !== 'N/A' ? `${avgDeezerRank}` : 'N/A';
+  
+    // Calculate and display the average song release date
+    const avgReleaseDate = await this.calculateAverageReleaseDate();
+    document.getElementById('avg-year-release').innerText = avgReleaseDate !== 'N/A' ? avgReleaseDate.getFullYear() : 'N/A';
+}
+
+async calculateAverageReleaseDate() {
+    try {
+        const savedSongs = JSON.parse(localStorage.getItem('savedSongs'));
+
+        if (!savedSongs || savedSongs.length === 0) {
+            console.log('Average Release Date: N/A');
+            return 'N/A';
+        }
+
+        const totalReleaseDates = savedSongs.reduce((acc, song) => {
+            const parsedSong = JSON.parse(song);
+            const releaseDate = parsedSong.release_date;
+            if (releaseDate) {
+                return acc + new Date(releaseDate).getTime();
+            } else {
+                return acc;
+            }
+        }, 0);
+
+        const averageReleaseDateTimestamp = Math.round(totalReleaseDates / savedSongs.length);
+        const averageReleaseDate = new Date(averageReleaseDateTimestamp);
+
+        console.log(`Average Release Date: ${averageReleaseDate.toLocaleDateString()}`);
+
+        return averageReleaseDate;
+    } catch (error) {
+        console.error('Error calculating average release date:', error);
+        return 'N/A';
+    }
+}
 
 
     async calculateAverageSongDuration() {
@@ -153,6 +190,26 @@ export default class extends AbstractView {
             return formattedAverageDuration;
         } catch (error) {
             console.error('Error calculating average song duration:', error);
+            return 'N/A';
+        }
+    }
+
+    async calculateAverageDeezerRank() {
+        try {
+            const savedSongs = JSON.parse(localStorage.getItem('savedSongs'));
+            if (!savedSongs || savedSongs.length === 0) {
+                console.log('Average Deezer Rank: N/A');
+                return 'N/A';
+            }
+            const totalDeezerRank = savedSongs.reduce((acc, song) => {
+                const parsedSong = JSON.parse(song);
+                return acc + (parsedSong.rank || 0);
+            }, 0);
+            const averageDeezerRank = Math.round(totalDeezerRank / savedSongs.length);
+            console.log(`Average Deezer Rank: ${averageDeezerRank}`);
+            return averageDeezerRank;
+        } catch (error) {
+            console.error('Error calculating average Deezer rank:', error);
             return 'N/A';
         }
     }
