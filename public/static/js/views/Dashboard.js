@@ -21,32 +21,17 @@ export default class extends AbstractView {
                             <h2>Music Taste Report</h2>
                             <div class="genre-percentage">
                                 <p>Average Song Length: <span id="avg-song-length"></span></p>
-                                <div class="progress">
-                                    <div class="progress-bar" id="rap-progress" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
                             </div>
                             <div class="genre-percentage">
                             <p>Number of Genres: <span id="genres-number"></span></p>
-                                <div class="progress">
-                                    <div class="progress-bar" id="classical-progress" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
                             </div>
                             <div class="genre-percentage">
                                 <p>Average Deezer Rank: <span id="avg-deezer-rank"></span></p>
-                                <div class="progress">
-                                    <div class="progress-bar" id="rock-progress" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
                             </div>
                             <div class="genre-percentage">
                             <p>Average Year of Release: <span id="avg-year-release"></span></p>
-                                <div class="progress">
-                                    <div class="progress-bar" id="pop-progress" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
                             </div>
                             <div class="genre-percentage">
-                                <div class="progress">
-                                    <div class="progress-bar" id="jazz-progress" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
                             </div>
                            
                         </div>
@@ -96,11 +81,6 @@ export default class extends AbstractView {
     }
 
     async onRender() {
-
-        // Fetch genre data from the API
-        const genres = await this.fetchGenreData();
-        // Update the progress bars
-        this.updateProgressBars(genres);
         // Update the Top 3 Genres section
         this.updateTopGenres();
     
@@ -297,23 +277,6 @@ async calculateAverageReleaseDate() {
         `;
     
         mostRecentContainer.innerHTML = mostRecentSongHTML;
-    }
-
-    updateProgressBars(genres) {
-        document.getElementById('pop-progress').style.width = `${genres.pop}%`;
-        document.getElementById('pop-progress').setAttribute('aria-valuenow', genres.pop);
-        
-        document.getElementById('rap-progress').style.width = `${genres.rap}%`;
-        document.getElementById('rap-progress').setAttribute('aria-valuenow', genres.rap);
-        
-        document.getElementById('rock-progress').style.width = `${genres.rock}%`;
-        document.getElementById('rock-progress').setAttribute('aria-valuenow', genres.rock);
-        
-        document.getElementById('jazz-progress').style.width = `${genres.jazz}%`;
-        document.getElementById('jazz-progress').setAttribute('aria-valuenow', genres.jazz);
-        
-        document.getElementById('classical-progress').style.width = `${genres.classical}%`;
-        document.getElementById('classical-progress').setAttribute('aria-valuenow', genres.classical);
     }
 
     updateTopGenres() {
