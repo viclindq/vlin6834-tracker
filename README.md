@@ -1,45 +1,59 @@
-# vlin6834-tracker
+# Music Tracker A3 for DECO2017
 
 ## Overview
-Music Tracker A3 for DECO2017!
+**Music Tracker A3** is a web application designed to help you track and manage your favorite songs. With features like song search, detailed song information, genre summary, and more, it provides a comprehensive solution for music enthusiasts.
 
 ### Version control
-This project uses git and github for tracking changes and managing development. 
-Please see the github repository here: https://github.com/viclindq/vlin6834-tracker.git
+This project uses git and GitHub for tracking changes and managing development. 
+Please see the GitHub repository [here](https://github.com/viclindq/vlin6834-tracker.git).
 
 ## Features
-- Search and add your favorite songs by their name into the tracker  
-- Get information about your songs including: (insert here what information the tracker provides)
-- Shows the top 5 recent songs you added, as well as a list where you can see all of your favorite songs
-- Get a summary of your 
+- **Search and Add Songs:** Easily search for your favorite songs by their name and add them to your tracker.
+- **Song Information:** Get detailed information about each song, including artist, genre, release date, duration, and more.
+- **Recent Songs:** View the top 5 recent songs you added and access a full list of your favorite anthems.
+- **Genre Summary:** Get a summary of your genre information based on the songs you've added.
+- **Statistics:** Track average song length, number of genres, and average year of releases of your songs.
+- **Top Genres:** See the top three genres you listen to the most.
+- **Delete Songs:** Remove existing songs from the visual list and browser storage.
 
 ## Setup
-1. Get the github repository up, download it and open with VS Code.
-2. Install express, npm install express into terminal
-3. In order resolve the CORS proxy, please use chrome to https://cors-anywhere.herokuapp.com/ and request temporary access for CORS server This is needed because Deezer doesn't allow any-origin requests.
+1. Clone the GitHub repository and open it with VS Code.
+2. Install Express by running `npm install express` in the terminal.
+3. Resolve the CORS proxy by visiting [https://cors-anywhere.herokuapp.com/](https://cors-anywhere.herokuapp.com/) in Chrome and request temporary access for CORS server. This is required because Deezer doesn't allow any-origin requests.
 
 ## Usage
-1. Open  http://localhost:8888/  in your chrome browser to start using the application.
-2. Once the page is open, you wont see any analysis yet because you have not added any songs to analyse. 
-3. Click the "Add New Song" button in your navigation and add 10 songs or more.
-4. You Can then see your genre summary in the "Genre Summary" page and see the songs you have added in the "My Favorite Anthems" page.
-
+1. Open [http://localhost:8888/](http://localhost:8888/) in your Chrome browser to start using the application.
+2. Upon opening the page, you won't see any analysis until you've added songs.
+3. Click the **"Add New Song"** button in the navigation and add at least 10 songs.
+4. Visit the **"Genre Summary"** page to see your genre summary and the **"My Favorite Anthems"** page to view the songs you've added.
 
 ## Limitations
-This application uses "localStorage for data persistence, which is limited to the specific browser and device. If you open the application in a different browser or on a different device, you won't see the same pie count.
+- **Local Storage:** This application uses local storage for data persistence, limited to the specific browser and device.
+- **Song Selection:** Users can't select the song they're looking for; the application only displays the top recommendation.
+- **Delete Function:** Despite attempts to implement the delete function, it didn't work due to technical constraints. The code snippet for the delete function is provided below.
+
 
 ## Development
-Original High fidelity concept for the UI
+Insert development here - talk about the different iterations I had and the entire process of coding the tracker
+
+- Explain what deezer is and why I used it. Explain how I tried to use the spotify API but it required the users ID and secret and login authentication, so it would be unsafe for me to share my secret to make the API run for public use. 
+- Then xplain how I had to use two API libraries, first utilising the Deezer search API and using the id from the search api, I used the albums Deezer API so get the information about the genre, and the album release date to get my averages. Show my code snipets and development here. 
+- 
 
 ## Acknowledgments
+- Used Bootstrap, Node.js, express, tried using sass but ended up deleting it after. 
+
 
 ### Sources
-- API Used: Deezer APi URL=https://developers.deezer.com/api
-- 
+- API Used: Deezer API URL=https://developers.deezer.com/api 
+- Single Page Architecure Video URL: 
+- API Application Video URL: https://www.youtube.com/watch?v=1PWDxgqLmDA&t=1782s
+
 
 ### AI usage Acknowledgments
 This project was initially generated with the help of ChatGPT4 with the following prompts.
 
+- (replace the ones below)
 - Hi, can you please give me a simple javascript Single page application for tracking how many pies I eat each week.
 - Can you please write a readme file for the application.
 - Can you please add local storage to the application.
