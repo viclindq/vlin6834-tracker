@@ -30,31 +30,120 @@ Please see the GitHub repository [https://github.com/viclindq/vlin6834-tracker.g
 
 ## Development
 
-### Background
+### Background & Design Elements 
 
-During the development of the Music Tracker A3 project for DECO2017, I encountered various challenges and made several iterations to achieve the desired functionality. One of the key aspects of the project was integrating external APIs to fetch song data and provide users with comprehensive information about their favorite songs.
+- During the development of the Music Tracker A3 project for DECO2017, I encountered various challenges and made several iterations to achieve the desired functionality. I did not have to make big changes from my prototypes as the general design was very similar, although I had to make some logical changes in order to make the analysis actually usable. 
+- Below is the original toggle format that I made to follow the prototype exactly from A2, althgouh I realised for things like the number of genres variety, a toggle would not be able to represent the data as there is no maximum or minimum value. 
 
-### Choice of API: Deezer
+```javascript
+  <div class="bg-grey rounded p-3 text-white h-100 d-flex flex-column min-height">
+                            <h2>Music Taste Report</h2>
+                            <div class="genre-percentage">
+                                <label>Pop</label>
+                                <p>Average Song Length: <span id="avg-song-length"></span></p>
+                                <div class="progress">
+                                    <div class="progress-bar" id="pop-progress" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar" id="rap-progress" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="genre-percentage">
+                                <label>Rap</label>
+                            <p>Number of Genres: <span id="genres-number"></span></p>
+                                <div class="progress">
+                                    <div class="progress-bar" id="rap-progress" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                    <div class="progress-bar" id="classical-progress" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+```
 
-I opted to use the Deezer API for retrieving song data due to its extensive database of music tracks and user-friendly documentation. Deezer provides a wide range of endpoints for searching songs, albums, artists, and more, making it a suitable choice for this project.
 
-### Consideration of Spotify API
+- I then changed this code to be in a less visually stimulating form because I noticed that the dashboard was becoming overpopulated and I had to reduce the amount of varieties of analysis down to three, from the origional of 5.   
 
-Initially, I considered using the Spotify API for fetching song data. However, I encountered challenges with the Spotify API's authentication process, which requires users to provide their client ID and secret for access. Due to security concerns and the potential risk of exposing sensitive information, I decided against using the Spotify API for public use.
+```javascript
+  <div class="row gy-4">
+                    <div class="col-md-4">
+                        <div class="bg-grey rounded p-3 text-white h-100 d-flex flex-column min-height">
+                            <h2>Music Taste Report</h2>
+
+                            <div class="genre-percentage">
+                                <p>Average Song Length:</p>
+                                <h1><span id="avg-song-length"></span></h1>
+                            </div>
+
+                            <div class="genre-percentage">
+                                <p>Number of Genres:</p>
+                                <h1><span id="genres-number"></span></h1>
+                            </div>
+
+                            <div class="genre-percentage">
+                                <p>Average Year of Release:</p>
+                                <h1><span id="avg-year-release"></span></h1>
+                            </div>
+                        </div>
+                    </div>
+```
+
+#### Music Taste Report
+
+- I had to change the music taste report from a toggle format about the genres to averages and more interesting information as there were already two containers that included insights into the genres, which would make the website very repetitive. 
+
+#### Music Taste Report
+
+
+### Deezer & Consideration of Spotify API
+
+- I opted to use the Deezer API for retrieving song data due to its extensive database of music tracks and user-friendly documentation. Deezer provides a wide range of endpoints for searching songs, albums, artists, and more, making it a suitable choice for this project.
+- Initially, I considered using the Spotify API for fetching song data. However, I encountered challenges with the Spotify API's authentication process, which requires users to provide their client ID and secret for access. Due to security concerns and the potential risk of exposing sensitive information, I decided against using the Spotify API for public use.
 
 ### Implementation Process
 
 #### Integration of Deezer API
 
-To implement the Music Tracker's search functionality, I utilized the Deezer search API. This API allows users to search for songs by their title, artist, or other parameters. Upon receiving the search results, I extracted the song's unique identifier (ID) and used it to fetch additional details from the Deezer albums API.
+- To implement the Music Tracker's search functionality, I utilized the Deezer search API. This API allows users to search for songs by their title, artist, or other parameters. Upon receiving the search results, I extracted the song's unique identifier (ID) and used it to fetch additional details from the Deezer albums API.
+
+```javascript
+ async searchSong(query) {
+        const url = `https://cors-anywhere.herokuapp.com/https://api.deezer.com/search?q=track:"${encodeURIComponent(query)}"`;
+        try {
+            const response = await fetch(url)
+            const data = await response.json();
+            if (data && Array.isArray(data.data) && data.data.length > 0) {
+                var song = data.data[0];
+                const albumId = song.album.id;
+                const { genre, releaseDate } = await this.getMainGenre(albumId);
+                song.genre = genre;
+                song.release_date = releaseDate;
+                this.displaySongDetails(song);
+            } else {
+                alert("No songs found.");
+            }
+        } catch (error) {
+            console.error('Error fetching song data:', error);
+        }
+    }
+
+async getMainGenre(albumId) {
+        const url = `https://cors-anywhere.herokuapp.com/https://api.deezer.com/album/${albumId}`;
+        try {
+            const response = await fetch(url);
+            const album = await response.json();
+            if (album) {
+                const genre = album.genres.data[0].name;
+                const releaseDate = album.release_date;
+                return { genre, releaseDate };
+            } else {
+                throw new Error("Couldn't find such album");
+            }
+        } catch (error) {
+            console.error('Error fetching album data:', error);
+        }
+    }
+
+```
 
 #### Retrieval of Song Details
 
-Once the user selects a song from the search results, I fetched detailed information about the song from the Deezer albums API. This included data such as the song's genre, release date, album cover, and more. By leveraging these endpoints, I was able to provide users with comprehensive insights into their favorite songs.
-
-### Code Snippets
-
-#### Search Functionality
+- Once the user selects a song from the search results, I fetched detailed information about the song from the Deezer albums API. This included data such as the song's genre, release date, album cover, and more. By leveraging these endpoints, I was able to provide users with comprehensive insights into their favorite songs.
 
 ```javascript
 async searchSong(query) {
@@ -73,9 +162,9 @@ async searchSong(query) {
 }
 ```
 
-#### Delete Function
+### Delete Function
 
-I tried very hard to implement a delete function for removing songs from the user's favorites list, technical constraints prevented its successful implementation. The code snippet below illustrates the attempted implementation of the delete function:
+Compltess attempts to implement a delete function for removing songs from the user's favorites list, technical constraints prevented its successful implementation. The code snippet below illustrates the attempted implementation of the delete function:
 
 ```javascript
 async deleteSong(songId) {
