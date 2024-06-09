@@ -30,9 +30,56 @@ Please see the GitHub repository [https://github.com/viclindq/vlin6834-tracker.g
 
 ## Development
 
-### Background & Design Elements 
+### Development Process
 
-- During the development of the Music Tracker A3 project for DECO2017, I encountered various challenges and made several iterations to achieve the desired functionality. I did not have to make big changes from my prototypes as the general design was very similar, although I had to make some logical changes in order to make the analysis actually usable. 
+The process of building the tracker included a range of steps in order to have a comprehensive set up to input in the APIs and javascript libraries. Here are the rough steps I took to create the music tracker:
+
+#### 1. Single Page Architecture
+- I firstly set up the single page architecture with the help of URL = https://www.youtube.com/watch?v=6BozpmSjk-Y&t=672s which allowed me to have multiple pages while still having the set up as a single page. This included me making the navigation bar outside of every individual file. 
+
+```javascript
+<body>
+    <nav class="nav">
+        <div class="profile">
+            <div class="profile__image-wrapper">
+                <img src="https://imgv3.fotor.com/images/blog-cover-image/10-profile-picture-ideas-to-make-you-stand-out.jpg" alt="Profile Picture" class="profile__image">
+            </div>
+            <h1 class="profile__name">Victoria Lindqvist</h1>
+        </div>
+        <a href="/" class="nav__link" data-link>Genre Summary</a>
+        <a href="/posts" class="nav__link" data-link>My Favorite Anthems</a>
+        <a href="/settings" class="nav__link" data-link>Add New Song</a>
+    </nav>
+    <div id="app" class="container mt-4"></div>
+    <script type="module" src="/static/js/index.js"></script>
+</body>
+</html>
+```
+
+#### 2. Placeholders & Interface Building
+- In order to get the interface loaded, I used place holder text and images to load the bootstrap containers in place and see the general aesthetics of the page. 
+
+```javascript
+ async getHtml() {
+        // Sample data for demonstration
+        const songs = [
+            {
+                albumCover: "https://www.udiscovermusic.com/wp-content/uploads/2017/08/Pink-Floyd-Dark-Side-Of-The-Moon.jpg",
+                songName: "Song Name 1",
+                artistName: "Artist Name 1",
+                genre: "Rock",
+                dateAdded: "2024-06-07",
+                duration: "3:45"
+            },
+            // Add more sample data for additional songs
+        ];
+```
+
+#### 3. 
+
+#### Music Taste Report
+- I had to change the music taste report from a toggle format about the genres to averages and more interesting information as there were already two containers that included insights into the genres, which would make the website very repetitive. 
+
 - Below is the original toggle format that I made to follow the prototype exactly from A2, althgouh I realised for things like the number of genres variety, a toggle would not be able to represent the data as there is no maximum or minimum value. 
 
 ```javascript
@@ -83,11 +130,6 @@ Please see the GitHub repository [https://github.com/viclindq/vlin6834-tracker.g
                     </div>
 ```
 
-#### Music Taste Report
-
-- I had to change the music taste report from a toggle format about the genres to averages and more interesting information as there were already two containers that included insights into the genres, which would make the website very repetitive. 
-
-#### Music Taste Report
 
 
 ### Deezer & Consideration of Spotify API
