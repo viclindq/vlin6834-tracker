@@ -33,39 +33,99 @@ Please see the GitHub repository [https://github.com/viclindq/vlin6834-tracker.g
 - **Delete Function:** Despite attempts to implement the delete function, it didn't work due to technical constraints. The code snippet for the delete function is provided below.
 
 
-## Development
-Insert development here - talk about the different iterations I had and the entire process of coding the tracker
+### Background
 
-- Explain what deezer is and why I used it. Explain how I tried to use the spotify API but it required the users ID and secret and login authentication, so it would be unsafe for me to share my secret to make the API run for public use. 
-- Then xplain how I had to use two API libraries, first utilising the Deezer search API and using the id from the search api, I used the albums Deezer API so get the information about the genre, and the album release date to get my averages. Show my code snipets and development here. 
-- 
+During the development of the Music Tracker A3 project for DECO2017, I encountered various challenges and made several iterations to achieve the desired functionality. One of the key aspects of the project was integrating external APIs to fetch song data and provide users with comprehensive information about their favorite songs.
+
+### Choice of API: Deezer
+
+I opted to use the Deezer API for retrieving song data due to its extensive database of music tracks and user-friendly documentation. Deezer provides a wide range of endpoints for searching songs, albums, artists, and more, making it a suitable choice for this project.
+
+### Consideration of Spotify API
+
+Initially, I considered using the Spotify API for fetching song data. However, I encountered challenges with the Spotify API's authentication process, which requires users to provide their client ID and secret for access. Due to security concerns and the potential risk of exposing sensitive information, I decided against using the Spotify API for public use.
+
+### Implementation Process
+
+#### Integration of Deezer API
+
+To implement the Music Tracker's search functionality, I utilized the Deezer search API. This API allows users to search for songs by their title, artist, or other parameters. Upon receiving the search results, I extracted the song's unique identifier (ID) and used it to fetch additional details from the Deezer albums API.
+
+#### Retrieval of Song Details
+
+Once the user selects a song from the search results, I fetched detailed information about the song from the Deezer albums API. This included data such as the song's genre, release date, album cover, and more. By leveraging these endpoints, I was able to provide users with comprehensive insights into their favorite songs.
+
+### Code Snippets
+
+#### Search Functionality
+
+```javascript
+async searchSong(query) {
+    const url = `https://cors-anywhere.herokuapp.com/https://api.deezer.com/search?q=track:"${encodeURIComponent(query)}"`;
+    try {
+        const response = await fetch(url)
+        const data = await response.json();
+        if (data && Array.isArray(data.data) && data.data.length > 0) {
+            // Process search results
+        } else {
+            alert("No songs found.");
+        }
+    } catch (error) {
+        console.error('Error fetching song data:', error);
+    }
+}
+```
+
+#### Delete Function
+
+I tried very hard to implement a delete function for removing songs from the user's favorites list, technical constraints prevented its successful implementation. The code snippet below illustrates the attempted implementation of the delete function:
+
+```javascript
+async deleteSong(songId) {
+    const confirmation = confirm("Are you sure you want to remove this song from your favorite songs?");
+    if (confirmation) {
+        console.log(`Deleting song with ID: ${songId}`);
+        let listOfSongs = JSON.parse(localStorage.getItem('savedSongs'));
+        console.log('Original list of songs:', listOfSongs);
+        const updatedList = listOfSongs.filter(songJSON => {
+            const parsedSong = JSON.parse(songJSON);
+            return songId !== parsedSong.id;
+        });
+        console.log('Updated list of songs:', updatedList);
+        localStorage.setItem('savedSongs', JSON.stringify(updatedList));
+        await this.loadFavSongs(); // Reload the list to reflect the changes
+    }
+}
+```
+
+Despite rigorous debugging and troubleshooting efforts, the delete function could not be successfully implemented due to unspecified technical constraints. Further investigation and experimentation may be required to resolve this issue and enable the desired functionality.
 
 
 ## Recommendations for Further Improvements or Extensions
 
 ### User Authentication and Authorization
-If I could implement changes to the Music Tracker in the future, the code would benefit from the addition of user authentication and authorization functionality. This would allow users to create accounts, log in securely, and access personalized features such as saving favorite songs or playlists.
+- If I could implement changes to the Music Tracker in the future, the code would benefit from the addition of user authentication and authorization functionality. This would allow users to create accounts, log in securely, and access personalized features such as saving favorite songs or playlists.
 
 ### Social Sharing and Integration
-In the future, the Music Tracker could benefit from the integration of social sharing features. This would enable users to share their favorite songs, playlists, or genre summaries with friends and followers on social media platforms such as Facebook, Twitter, and Instagram.
+- In the future, the Music Tracker could benefit from the integration of social sharing features. This would enable users to share their favorite songs, playlists, or genre summaries with friends and followers on social media platforms such as Facebook, Twitter, and Instagram.
 
 ### Advanced Analytics and Insights
-To provide users with deeper insights into their music preferences and listening habits, I would enhance the analytics and insights capabilities of the Music Tracker. This could involve implementing data visualization tools, algorithms, and personalized recommendations to generate curated playlists and personalized music suggestions.
+- To provide users with deeper insights into their music preferences and listening habits, I would enhance the analytics and insights capabilities of the Music Tracker. This could involve implementing data visualization tools, algorithms, and personalized recommendations to generate curated playlists and personalized music suggestions.
 
 ### Mobile Responsiveness and Progressive Web App 
-To ensure seamless performance and usability across a variety of devices, I would optimize the Music Tracker for mobile devices and create a progressive web app. This would involve implementing responsive design principles, offline capabilities, and push notifications to enhance the mobile user experience.
+- To ensure seamless performance and usability across a variety of devices, I would optimize the Music Tracker for mobile devices and create a progressive web app. This would involve implementing responsive design principles, offline capabilities, and push notifications to enhance the mobile user experience.
 
 ### Integration with Music Streaming APIs
-To expand the range of available songs and provide users with access to a wider selection of music content, I would explore integration with other music streaming APIs such as Spotify, Apple Music, or YouTube Music. This would enhance the Music Tracker's catalog and improve the overall user experience.
+- To expand the range of available songs and provide users with access to a wider selection of music content, I would explore integration with other music streaming APIs such as Spotify, Apple Music, or YouTube Music. This would enhance the Music Tracker's catalog and improve the overall user experience.
 
 ### Community Features and Collaboration
-To foster interaction and collaboration among users, I would introduce community features such as user profiles, comments, ratings, and collaborative playlists. This would enable users to discover new music, connect with like-minded individuals, and share their musical experiences within the Music Tracker platform.
+- To foster interaction and collaboration among users, I would introduce community features such as user profiles, comments, ratings, and collaborative playlists. This would enable users to discover new music, connect with like-minded individuals, and share their musical experiences within the Music Tracker platform.
 
 ### Machine Learning and Personalization
-In the future, the Music Tracker could benefit from the implementation of machine learning algorithms and techniques to create personalized music recommendations. This would tailor the user experience based on individual preferences and behavior patterns, enhancing user engagement and satisfaction.
+- In the future, the Music Tracker could benefit from the implementation of machine learning algorithms and techniques to create personalized music recommendations. This would tailor the user experience based on individual preferences and behavior patterns, enhancing user engagement and satisfaction.
 
 ### Gamification and Engagement
-To enhance user engagement and encourage active participation within the Music Tracker platform, I would incorporate gamification elements such as achievements, badges, leaderboards, and challenges. This would incentivize exploration, discovery, and interaction among users, making the Music Tracker more engaging and enjoyable to use.
+- To enhance user engagement and encourage active participation within the Music Tracker platform, I would incorporate gamification elements such as achievements, badges, leaderboards, and challenges. This would incentivize exploration, discovery, and interaction among users, making the Music Tracker more engaging and enjoyable to use.
 
 
 
