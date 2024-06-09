@@ -10,9 +10,9 @@ export default class extends AbstractView {
         return `
             <div class="container-fluid mt-4 dashboard-bg">
                 <div class="row mb-4">
-                    <div class="col-12 text-center bg-grey rounded p-3 text-white first-row">
-                        <h1>Your Top Genre: Jazz House</h1>
-                        <p>Jazz house is a style of house music closely related to deep house, which can be described as an attempt to translate the atmosphere of jazz music into an electronic setting.</p>
+                    <div class="col-12 text-center bg-grey rounded p-3 text-white first-row" id="top-genre-container">
+                        <h1>Your Top Genre: <span id="top-genre"></span></h1>
+                        <p>Welcome to your music genre tracker! Add your favorite songs and see what your music taste is. If you have many top genres, your music taste is diverse!</p>
                     </div>
                 </div>
                 <div class="row gy-4">
@@ -20,35 +20,36 @@ export default class extends AbstractView {
                         <div class="bg-grey rounded p-3 text-white h-100 d-flex flex-column min-height">
                             <h2>Music Taste Report</h2>
                             <div class="genre-percentage">
-                                <label>Pop</label>
-                                <div class="progress">
-                                    <div class="progress-bar" id="pop-progress" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
-                            <div class="genre-percentage">
-                                <label>Rap</label>
+                                <p>Average Song Length: <span id="avg-song-length"></span></p>
                                 <div class="progress">
                                     <div class="progress-bar" id="rap-progress" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                             <div class="genre-percentage">
-                                <label>Rock</label>
+                            <p>Number of Genres: <span id="genres-number"></span></p>
+                                <div class="progress">
+                                    <div class="progress-bar" id="classical-progress" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="genre-percentage">
+                                <p>Average Deezer Rank: <span id="avg-deezer-rank"></span></p>
                                 <div class="progress">
                                     <div class="progress-bar" id="rock-progress" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
                             <div class="genre-percentage">
-                                <label>Jazz</label>
+                            <p>Average Year of Release: <span id="avg-year-release"></span></p>
+                                <div class="progress">
+                                    <div class="progress-bar" id="pop-progress" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
+                                </div>
+                            </div>
+                            <div class="genre-percentage">
+                                <p>Average Explicit Content: <span id="avg-explicit-content"></span></p>
                                 <div class="progress">
                                     <div class="progress-bar" id="jazz-progress" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
                                 </div>
                             </div>
-                            <div class="genre-percentage">
-                                <label>Classical</label>
-                                <div class="progress">
-                                    <div class="progress-bar" id="classical-progress" role="progressbar" style="width: 0%;" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100"></div>
-                                </div>
-                            </div>
+                           
                         </div>
                     </div>
                     <div class="col-md-4 adjusted-padding">
@@ -60,7 +61,7 @@ export default class extends AbstractView {
                         </div>
                     </div>
                     <div class="col-md-4 adjusted-padding">
-                        <div class="bg-grey rounded p-3 text-white h-100 d-flex flex-column min-height">
+                        <div class="bg-grey rounded p-3 text-white h-100 d-flex flex-column min-height" id="most-recent-song">
                             <h2>Most Recent Song</h2>
                             <div class="song-info" id="most-recent-song-container">
                                 <!-- Most recent song will be loaded here -->
@@ -68,7 +69,7 @@ export default class extends AbstractView {
                         </div>
                     </div>
                 </div>
-
+    
                 <!-- Song list table -->
                 <div class="container-fluid bg-grey rounded p-3 text-white mt-4 song-list">
                     <h2>My Favorite Anthems</h2>
@@ -96,12 +97,13 @@ export default class extends AbstractView {
     }
 
     async onRender() {
+
         // Fetch genre data from the API
         const genres = await this.fetchGenreData();
         // Update the progress bars
         this.updateProgressBars(genres);
         // Update the Top 3 Genres section
-        this.updateTopGenres(genres);
+        this.updateTopGenres();
     
         // Load favorite songs
         await this.loadFavSongs();
@@ -110,7 +112,49 @@ export default class extends AbstractView {
         this.loadMostRecentSong();
     
         // Update the top genre based on favorite songs
-        this.updateTopGenreFromLocalStorage();
+        await this.updateTopGenreFromLocalStorage();
+    
+        // Calculate the average song duration
+        const avgSongDuration = await this.calculateAverageSongDuration();
+    
+        // Update the HTML element with the average song duration
+        document.getElementById('avg-song-length').innerText = avgSongDuration !== 'N/A' ? `${avgSongDuration}` : 'N/A';
+    
+        // Calculate and display the number of different genres
+        const numberOfGenres = await this.calculateNumberOfGenres();
+        document.getElementById('genres-number').innerText = numberOfGenres;
+    };
+
+
+
+    async calculateAverageSongDuration() {
+        try {
+            const savedSongs = JSON.parse(localStorage.getItem('savedSongs'));
+    
+            if (!savedSongs || savedSongs.length === 0) {
+                return 'N/A';
+            }
+    
+            const totalDurationSeconds = savedSongs.reduce((acc, song) => {
+                const parsedSong = JSON.parse(song);
+                return acc + parseInt(parsedSong.duration);
+            }, 0);
+    
+            const averageDurationSeconds = Math.round(totalDurationSeconds / savedSongs.length);
+    
+            const averageDurationMinutes = Math.floor(averageDurationSeconds / 60);
+            const averageDurationSecondsRemaining = averageDurationSeconds % 60;
+    
+            // Format the average duration in minutes:seconds
+            const formattedAverageDuration = `${averageDurationMinutes}:${averageDurationSecondsRemaining.toString().padStart(2, '0')}`;
+    
+            console.log(`Average Track Duration: ${formattedAverageDuration}`);
+    
+            return formattedAverageDuration;
+        } catch (error) {
+            console.error('Error calculating average song duration:', error);
+            return 'N/A';
+        }
     }
 
     async fetchGenreData() {
@@ -124,6 +168,34 @@ export default class extends AbstractView {
             classical: 10
         };
     }
+
+    async calculateNumberOfGenres() {
+        try {
+            const savedSongs = JSON.parse(localStorage.getItem('savedSongs'));
+    
+            if (!savedSongs || savedSongs.length === 0) {
+                console.log('Number of Genres: 0');
+                return 0;
+            }
+    
+            const genresSet = new Set();
+    
+            savedSongs.forEach((song) => {
+                const parsedSong = JSON.parse(song);
+                genresSet.add(parsedSong.genre);
+            });
+    
+            const numberOfGenres = genresSet.size;
+    
+            console.log(`Number of Genres: ${numberOfGenres}`);
+    
+            return numberOfGenres;
+        } catch (error) {
+            console.error('Error calculating number of genres:', error);
+            return 'N/A';
+        }
+    }
+
 
     async loadFavSongs() {
         console.log("I am loading saved songs");
@@ -140,23 +212,16 @@ export default class extends AbstractView {
 
         favoriteContainer.innerHTML = savedSongs.map(song => this.generateFavoriteSongHTML(song)).join('');
 
-        // Sort the songs by date added in descending order
-        savedSongs.sort((a, b) => new Date(JSON.parse(b).addedTime) - new Date(JSON.parse(a).addedTime));
+        const repeatList = Math.min(5, savedSongs.length);
+        const dummyList = Array.from(Array(repeatList).keys());
+        recentContainer.innerHTML = dummyList.map((song, index) => this.generateRecentSongHTML(index)).join('');
 
-        // Take the last 5 most recently added songs
-        const recentSongs = savedSongs.slice(-5).reverse(); // Reverse to show the latest added on the left
-
-        // Generate HTML for each recent song and populate the container
-        recentContainer.innerHTML = recentSongs.map((song, index) => this.generateRecentSongHTML(song, index)).join('');
-
-        // Load the most recent song separately
         const mostRecentSong = JSON.parse(savedSongs[0]);
-        document.getElementById('most-recent-song-container').innerHTML = this.generateRecentSongHTML(mostRecentSong, 0);
+        document.getElementById('most-recent-song-container').innerHTML = this.generateRecentSongHTML(0);
     }
 
     loadMostRecentSong() {
         const savedSongs = JSON.parse(localStorage.getItem('savedSongs'));
-        console.log('Saved Songs:', savedSongs); // Debugging line
         const mostRecentContainer = document.getElementById('most-recent-song-container');
     
         if (!savedSongs || savedSongs.length === 0) {
@@ -164,13 +229,10 @@ export default class extends AbstractView {
             return;
         }
     
-        // Sort the songs by date added in descending order
         savedSongs.sort((a, b) => new Date(JSON.parse(b).addedTime) - new Date(JSON.parse(a).addedTime));
     
         const mostRecentSong = JSON.parse(savedSongs[0]);
-        console.log('Most Recent Song:', mostRecentSong); // Debugging line
     
-        // Generate HTML for the most recent song
         const mostRecentSongHTML = `
             <img src="${mostRecentSong.album.cover}" alt="Album Cover" class="album-cover">
             <p class="song-name" style="font-size: 18px; margin-bottom: 2px;">${mostRecentSong.title}</p>
@@ -179,6 +241,7 @@ export default class extends AbstractView {
     
         mostRecentContainer.innerHTML = mostRecentSongHTML;
     }
+
     updateProgressBars(genres) {
         document.getElementById('pop-progress').style.width = `${genres.pop}%`;
         document.getElementById('pop-progress').setAttribute('aria-valuenow', genres.pop);
@@ -196,19 +259,31 @@ export default class extends AbstractView {
         document.getElementById('classical-progress').setAttribute('aria-valuenow', genres.classical);
     }
 
-    updateTopGenres(genres) {
-        const sortedGenres = Object.entries(genres).sort((a, b) => b[1] - a[1]);
+    updateTopGenres() {
+        var topSongsDict = {};
+        const songs = JSON.parse(localStorage.getItem('savedSongs'));
+        songs.forEach((songJSON) => {
+            const parsedSong = JSON.parse(songJSON);
+            const genre = parsedSong.genre;
+            topSongsDict[genre] = (topSongsDict[genre] || 0) + 1;
+        });
+        const topNMany = Math.min(3, songs.length);
+        const topNDictGenres = Object.entries(topSongsDict).sort((a, b) => b[1] - a[1]);
+        const topGenreNames = topNDictGenres.map(([g]) => g);
+        
+        console.log(`Top genres are ${topGenreNames}`);
+
         const topGenresContainer = document.getElementById('top-genres-container');
 
         const topGenresHTML = `
             <div class="genre-container top-genre" style="background-color: brightblue;">
-                <p>${sortedGenres[0][0]}</p>
+                <p>${topGenreNames[0]}</p>
             </div>
             <div class="genre-container second-genre" style="background-color: darkblue;">
-                <p>${sortedGenres[1][0]}</p>
+                <p>${topGenreNames[1]}</p>
             </div>
             <div class="genre-container third-genre" style="background-color: greyblue;">
-                <p>${sortedGenres[2][0]}</p>
+                <p>${topGenreNames[2]}</p>
             </div>
         `;
 
@@ -217,20 +292,23 @@ export default class extends AbstractView {
 
     generateFavoriteSongHTML(song) {
         const { title, artist, genre, duration, album } = JSON.parse(song);
+        const addedTime = JSON.parse(song).addedTime;
         return `
             <div class="row song-row">
                 <div class="col-auto"><img src="${album.cover}" alt="Album Cover" style="max-width: 50px;"></div>
                 <div class="col" style="font-size: 14px;">${title}</div>
                 <div class="col" style="font-size: 14px;">${artist.name}</div>
                 <div class="col" style="font-size: 14px;">${genre}</div>
-                <div class="col" style="font-size: 14px;">${new Date().toLocaleDateString()}</div>
+                <div class="col" style="font-size: 14px;">${new Date(addedTime).toLocaleDateString()}</div>
                 <div class="col" style="font-size: 14px;">${Math.floor(duration / 60)}:${duration % 60}</div>
             </div>
         `;
     }
 
-    generateRecentSongHTML(song, index) {
-        const { title, artist, album } = JSON.parse(song);
+    generateRecentSongHTML(index) {
+        const savedSongs = JSON.parse(localStorage.getItem('savedSongs'));
+        const sortedSongs = savedSongs.slice(-5).reverse();
+        const { title, artist, album } = JSON.parse(sortedSongs[index]);
         const columnClasses = ['col-md-2 left', 'col-md-2 middle', 'col-md-2 middle', 'col-md-2 middle', 'col-md-2 right'];
         return `
             <div class="${columnClasses[index]}">
@@ -244,32 +322,36 @@ export default class extends AbstractView {
     }
 
     async updateTopGenreFromLocalStorage() {
-        const savedSongs = JSON.parse(localStorage.getItem('savedSongs'));
-
-        if (!savedSongs || savedSongs.length === 0) {
-            return;
-        }
-
-        const genreCounts = {};
-
-        savedSongs.forEach(song => {
-            const { genre } = JSON.parse(song);
-            if (genre in genreCounts) {
-                genreCounts[genre]++;
-            } else {
-                genreCounts[genre] = 1;
-            }
+        const topSongsDict = {};
+        const songs = JSON.parse(localStorage.getItem('savedSongs')) || [];
+    
+        songs.forEach((songJSON) => {
+            const parsedSong = JSON.parse(songJSON);
+            const genre = parsedSong.genre;
+            topSongsDict[genre] = (topSongsDict[genre] || 0) + 1;
         });
-
-        const topGenres = Object.keys(genreCounts).sort((a, b) => genreCounts[b] - genreCounts[a]);
-        const topGenreElement = document.getElementById('top-genre-placeholder');
-
+    
+        // Get the entries and sort them by the number of songs
+        const topNDictGenres = Object.entries(topSongsDict).sort((a, b) => b[1] - a[1]);
+    
+        // Find the maximum number of songs in any genre
+        const maxCount = topNDictGenres.length > 0 ? topNDictGenres[0][1] : 0;
+        // Find all genres with this maximum count
+        const topGenres = topNDictGenres.filter(([genre, count]) => count === maxCount).map(([genre]) => genre);
+    
+        console.log(`Top genres are ${topGenres}`);
+    
+        const topGenreElement = document.getElementById('top-genre');
+    
         if (topGenres.length === 0) {
             topGenreElement.innerText = "Unknown";
         } else if (topGenres.length === 1) {
             topGenreElement.innerText = topGenres[0];
+        } else if (topGenres.length === 2) {
+            topGenreElement.innerText = `${topGenres[0]} & ${topGenres[1]}`;
         } else {
-            topGenreElement.innerText = topGenres.join(' & ');
+            topGenreElement.innerText = "Diverse";
         }
     }
 }
+

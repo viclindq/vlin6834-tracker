@@ -55,6 +55,9 @@ const router = async () => {
     if (typeof view.loadFavSongs === "function") {
         await view.loadFavSongs();
     }
+    if (typeof view.onRender === "function") {
+        await view.onRender();
+    }
 };
 
 window.addEventListener("popstate", router);

@@ -122,8 +122,21 @@ export default class extends AbstractView {
         if (savedSongs === null || savedSongs.length === 0) {
             savedSongs = [];  
         }
-        savedSongs.push(JSON.stringify(song));
-        localStorage.setItem('savedSongs', JSON.stringify(savedSongs));
-        alert(`Added ${song.title} by ${song.artist.name} to My Favorite Anthems. Added at ${new Date(addedTime)}`);
+        var thisSongIsAdded = false; 
+        savedSongs.map((songJson, index) => {
+            const parsedSong = JSON.parse(songJson);
+            if (song.id === parsedSong.id) {
+                thisSongIsAdded = true;
+            }
+        });
+        if (thisSongIsAdded) {
+            alert(`This song is already added`);
+        } else {
+            song.addedTime = addedTime;
+            savedSongs.push(JSON.stringify(song));
+            localStorage.setItem('savedSongs', JSON.stringify(savedSongs));
+            alert(`Added ${song.title} by ${song.artist.name} to My Favorite Anthems. Added at ${new Date(addedTime)}`);
+        }
+
     }
 }

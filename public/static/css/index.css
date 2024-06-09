@@ -5,6 +5,7 @@
 /* Styling for the most recent song container */
 #most-recent-song-container {
     text-align: center;
+    
 }
 
 #most-recent-song-container .album-cover {
@@ -64,7 +65,6 @@ p.artist {
     margin-top: 2px;
     color: #aaaaaa;
 }
-
 
 /* Existing CSS */
 body {
@@ -174,7 +174,6 @@ a {
 /* Dashboard background */
 .dashboard-bg {
     background-color: #151515;
-    padding: 2rem;
     border-radius: 16px;
 }
 
@@ -284,8 +283,6 @@ a {
     margin: 0;
     font-size: 14px;
     white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
     max-width: 200px; /* Adjust as needed */
 }
 
@@ -508,4 +505,10 @@ a {
 /* Hide the song details container initially */
 .hidden {
     display: none;
+}
+
+/* Custom CSS to remove padding above the top genre container */
+.row.mb-4 {
+    margin-top: 0 !important; /* Remove top margin */
+    padding-top: 0 !important; /* Remove top padding */
 }
