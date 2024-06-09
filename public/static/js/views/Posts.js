@@ -4,18 +4,18 @@ export default class extends AbstractView {
     constructor(params) {
         super(params);
         this.setTitle("Posts");
+        window.deleteSong = this.deleteSong.bind(this); // Attach to the global scope
     }
 
     async getHtml() {
         return `
         <!-- Additional container row for recent songs -->
-        <div class="container-fluid bg-grey rounded p-3 text-white mt-4 recent-songs-container" id="recent-songs-container">
-        <h2>Recent Songs You Added</h2>
-
-        <div class="row gy-4">
-                <!-- Recent songs will be loaded here -->
-            </div>
-        </div>
+                <div class="container-fluid bg-grey rounded p-3 text-white mt-4 recent-songs-container" id="recent-songs-container">
+                    <h2>Recent Songs You Added</h2>
+                    <div class="row gy-4">
+                        <!-- Recent songs will be loaded here -->
+                    </div>
+                </div>
         <!-- Song list table -->
             <div class="container-fluid bg-grey rounded p-3 text-white mt-4 song-list">
                 <h2>My Favorite Anthems</h2>
@@ -26,12 +26,12 @@ export default class extends AbstractView {
                     <div class="col">Genre</div>
                     <div class="col">Date Added</div>
                     <div class="col">Duration</div>
+                    <div class="col-auto">Clear</div>
                 </div>
                 <div class="row gy-4" id="favorite-songs-container">
                     <!-- Favorite songs will be loaded here -->
                 </div>
             </div>
-           
         `;
     }
 
@@ -44,37 +44,47 @@ export default class extends AbstractView {
         if (!savedSongs || savedSongs.length === 0) {
             favoriteContainer.innerHTML = `<p>No favorite songs added yet.</p>`;
             recentContainer.innerHTML = `<p>No recent songs added yet.</p>`;
+            const mostRecentContainer = document.getElementById('most-recent-song-container');
+            if (mostRecentContainer) {
+                mostRecentContainer.innerHTML = `<p>No recent songs added yet.</p>`;
+            }
             return;
         }
 
         favoriteContainer.innerHTML = savedSongs.map(song => this.generateFavoriteSongHTML(song)).join('');
 
-        // Sort the songs by date added in descending order
-        savedSongs.sort((a, b) => new Date(JSON.parse(b).addedTime) - new Date(JSON.parse(a).addedTime));
+        const repeatList = Math.min(5, savedSongs.length);
+        const dummyList = Array.from(Array(repeatList).keys());
+        recentContainer.innerHTML = dummyList.map((song, index) => this.generateRecentSongHTML(index)).join('');
 
-        // Take the last 5 most recently added songs
-        const recentSongs = savedSongs.slice(-5).reverse(); // Reverse to show the latest added on the left
-
-        // Generate HTML for each recent song and populate the container
-        recentContainer.innerHTML = recentSongs.map((song, index) => this.generateRecentSongHTML(song, index)).join('');
+        const mostRecentContainer = document.getElementById('most-recent-song-container');
+        if (mostRecentContainer) {
+            const mostRecentSong = JSON.parse(savedSongs[0]);
+            mostRecentContainer.innerHTML = this.generateRecentSongHTML(0);
+        }
     }
 
     generateFavoriteSongHTML(song) {
-        const { title, artist, genre, duration, album } = JSON.parse(song);
+        const { id, title, artist, genre, duration, album, addedTime } = JSON.parse(song);
         return `
-            <div class="row song-row">
+            <div class="row song-row" data-song-id="${id}">
                 <div class="col-auto"><img src="${album.cover}" alt="Album Cover" style="max-width: 50px;"></div>
                 <div class="col" style="font-size: 14px;">${title}</div>
                 <div class="col" style="font-size: 14px;">${artist.name}</div>
                 <div class="col" style="font-size: 14px;">${genre}</div>
-                <div class="col" style="font-size: 14px;">${new Date().toLocaleDateString()}</div>
+                <div class="col" style="font-size: 14px;">${new Date(addedTime).toLocaleDateString()}</div>
                 <div class="col" style="font-size: 14px;">${Math.floor(duration / 60)}:${duration % 60}</div>
+                <div class="col-auto">
+                    <button class="btn btn-danger" onclick="deleteSong('${id}')">X</button>
+                </div>
             </div>
         `;
     }
 
-    generateRecentSongHTML(song, index) {
-        const { title, artist, album } = JSON.parse(song);
+    generateRecentSongHTML(index) {
+        const savedSongs = JSON.parse(localStorage.getItem('savedSongs'));
+        const sortedSongs = savedSongs.slice(-5).reverse();
+        const { title, artist, album } = JSON.parse(sortedSongs[index]);
         const columnClasses = ['col-md-2 left', 'col-md-2 middle', 'col-md-2 middle', 'col-md-2 middle', 'col-md-2 right'];
         return `
             <div class="${columnClasses[index]}">
@@ -85,5 +95,21 @@ export default class extends AbstractView {
                 </div>
             </div>
         `;
+    }
+
+    async deleteSong(songId) {
+        const confirmation = confirm("Are you sure you want to remove this song from your favorite songs?");
+        if (confirmation) {
+            console.log(`Deleting song with ID: ${songId}`);
+            let listOfSongs = JSON.parse(localStorage.getItem('savedSongs'));
+            console.log('Original list of songs:', listOfSongs);
+            const updatedList = listOfSongs.filter(songJSON => {
+                const parsedSong = JSON.parse(songJSON);
+                return songId !== parsedSong.id;
+            });
+            console.log('Updated list of songs:', updatedList);
+            localStorage.setItem('savedSongs', JSON.stringify(updatedList));
+            this.loadFavSongs(); // Reload the list to reflect the changes
+        }
     }
 }
