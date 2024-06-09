@@ -313,7 +313,10 @@ Despite rigorous debugging and troubleshooting efforts, the delete function coul
 ### AI usage Acknowledgments
 This project was initially generated with the help of ChatGPT4 with the following prompts.
 
-- (replace the ones below)
-- Hi, can you please give me a simple javascript Single page application for tracking how many pies I eat each week.
-- Can you please write a readme file for the application.
-- Can you please add local storage to the application.
+- How can I fetch data from an external API and display it on my page?
+- Can you help me create a responsive side navigation bar?
+- How can I add animations to my side navigation bar?
+- Can you explain how to use the Deezer API to generate song information for my music tracker?
+- Can you provide a short explanation for the main sections of my code without code snippets, just headers?
+- Can you help me improve the performance of my application by optimizing the JavaScript code?
+- Can you assist with implementing local storage for my favorite songs?
