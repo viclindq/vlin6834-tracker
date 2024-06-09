@@ -5,7 +5,7 @@
 
 ### Version control
 This project uses git and GitHub for tracking changes and managing development. 
-Please see the GitHub repository [here](https://github.com/viclindq/vlin6834-tracker.git).
+Please see the GitHub repository [https://github.com/viclindq/vlin6834-tracker.git].
 
 ## Features
 - **Search and Add Songs:** Easily search for your favorite songs by their name and add them to your tracker.
@@ -40,13 +40,43 @@ Insert development here - talk about the different iterations I had and the enti
 - Then xplain how I had to use two API libraries, first utilising the Deezer search API and using the id from the search api, I used the albums Deezer API so get the information about the genre, and the album release date to get my averages. Show my code snipets and development here. 
 - 
 
+
+## Recommendations for Further Improvements or Extensions
+
+### User Authentication and Authorization
+If I could implement changes to the Music Tracker in the future, the code would benefit from the addition of user authentication and authorization functionality. This would allow users to create accounts, log in securely, and access personalized features such as saving favorite songs or playlists.
+
+### Social Sharing and Integration
+In the future, the Music Tracker could benefit from the integration of social sharing features. This would enable users to share their favorite songs, playlists, or genre summaries with friends and followers on social media platforms such as Facebook, Twitter, and Instagram.
+
+### Advanced Analytics and Insights
+To provide users with deeper insights into their music preferences and listening habits, I would enhance the analytics and insights capabilities of the Music Tracker. This could involve implementing data visualization tools, algorithms, and personalized recommendations to generate curated playlists and personalized music suggestions.
+
+### Mobile Responsiveness and Progressive Web App 
+To ensure seamless performance and usability across a variety of devices, I would optimize the Music Tracker for mobile devices and create a progressive web app. This would involve implementing responsive design principles, offline capabilities, and push notifications to enhance the mobile user experience.
+
+### Integration with Music Streaming APIs
+To expand the range of available songs and provide users with access to a wider selection of music content, I would explore integration with other music streaming APIs such as Spotify, Apple Music, or YouTube Music. This would enhance the Music Tracker's catalog and improve the overall user experience.
+
+### Community Features and Collaboration
+To foster interaction and collaboration among users, I would introduce community features such as user profiles, comments, ratings, and collaborative playlists. This would enable users to discover new music, connect with like-minded individuals, and share their musical experiences within the Music Tracker platform.
+
+### Machine Learning and Personalization
+In the future, the Music Tracker could benefit from the implementation of machine learning algorithms and techniques to create personalized music recommendations. This would tailor the user experience based on individual preferences and behavior patterns, enhancing user engagement and satisfaction.
+
+### Gamification and Engagement
+To enhance user engagement and encourage active participation within the Music Tracker platform, I would incorporate gamification elements such as achievements, badges, leaderboards, and challenges. This would incentivize exploration, discovery, and interaction among users, making the Music Tracker more engaging and enjoyable to use.
+
+
+
+
 ## Acknowledgments
 - Used Bootstrap, Node.js, express, tried using sass but ended up deleting it after. 
 
 
 ### Sources
 - API Used: Deezer API URL=https://developers.deezer.com/api 
-- Single Page Architecure Video URL: 
+- Single Page Architecure video that I followed URL: https://www.youtube.com/watch?v=6BozpmSjk-Y&t=672s
 - API Application Video URL: https://www.youtube.com/watch?v=1PWDxgqLmDA&t=1782s
 
 
