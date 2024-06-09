@@ -27,11 +27,8 @@ Please see the GitHub repository [https://github.com/viclindq/vlin6834-tracker.g
 3. Click the **"Add New Song"** button in the navigation and add at least 10 songs.
 4. Visit the **"Genre Summary"** page to see your genre summary and the **"My Favorite Anthems"** page to view the songs you've added.
 
-## Limitations
-- **Local Storage:** This application uses local storage for data persistence, limited to the specific browser and device.
-- **Song Selection:** Users can't select the song they're looking for; the application only displays the top recommendation.
-- **Delete Function:** Despite attempts to implement the delete function, it didn't work due to technical constraints. The code snippet for the delete function is provided below.
 
+## Development
 
 ### Background
 
@@ -128,11 +125,15 @@ Despite rigorous debugging and troubleshooting efforts, the delete function coul
 - To enhance user engagement and encourage active participation within the Music Tracker platform, I would incorporate gamification elements such as achievements, badges, leaderboards, and challenges. This would incentivize exploration, discovery, and interaction among users, making the Music Tracker more engaging and enjoyable to use.
 
 
+## Limitations
+- **Local Storage:** This application uses local storage for data persistence, limited to the specific browser and device.
+- **Song Selection:** Users can't select the song they're looking for; the application only displays the top recommendation.
+- **Delete Function:** Despite attempts to implement the delete function, it didn't work due to technical constraints. The code snippet for the delete function is provided below.
+
 
 
 ## Acknowledgments
 - Used Bootstrap, Node.js, express, tried using sass but ended up deleting it after. 
-
 
 ### Sources
 - API Used: Deezer API URL=https://developers.deezer.com/api 
