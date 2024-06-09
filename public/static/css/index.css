@@ -8,6 +8,16 @@
     
 }
 
+.genre-percentage p {
+    color: rgb(174, 174, 174); /* Light grey color for text */
+    margin-bottom: 1px; /* Less distance between the paragraphs */
+}
+
+.genre-percentage h1 {
+    color: #01aef2; /* Light blue color for the average song length */
+    font-size: 50px;
+}
+
 #most-recent-song-container .album-cover {
     width: 200px;
     height: 200px;
@@ -56,6 +66,7 @@ img.album-cover {
     object-fit: cover;
     border-radius: 8px;
 }
+
 
 p.song-name {
     margin-bottom: 2px;
@@ -288,7 +299,7 @@ a {
 
 /* CSS for the progress bars */
 .genre-percentage {
-    margin-bottom: 1rem;
+    margin-bottom: 10px;
 }
 
 .genre-percentage label {
@@ -366,20 +377,27 @@ a {
     font-size: 18px;
 }
 
+#top-genres-container h2 {
+    margin-bottom: 10px; /* Space between the heading and the genres */
+}
+
 #top-genres-container .top-genre {
     background-color: #01aef2;
-    flex: 1.5;
+    height: 120px;
+    font-size: 45px;
 }
 
 #top-genres-container .second-genre {
     background-color: #0056b3;
-    flex: 1.2;
+    height: 100px;
+    font-size: 35px;
 }
 
 #top-genres-container .third-genre {
     background-color: #3e4b58;
-    flex: 1;
-} 
+    height: 65px;
+    font-size: 30px;
+}
 
 /* Add custom styles for the Add New Songs section */
 #song-search-input {

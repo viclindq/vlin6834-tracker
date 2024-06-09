@@ -19,32 +19,32 @@ export default class extends AbstractView {
                     <div class="col-md-4">
                         <div class="bg-grey rounded p-3 text-white h-100 d-flex flex-column min-height">
                             <h2>Music Taste Report</h2>
+
                             <div class="genre-percentage">
-                                <p>Average Song Length: <span id="avg-song-length"></span></p>
+                                <p>Average Song Length:</p>
+                                <h1><span id="avg-song-length"></span></h1>
                             </div>
+
                             <div class="genre-percentage">
-                            <p>Number of Genres: <span id="genres-number"></span></p>
+                                <p>Number of Genres:</p>
+                                <h1><span id="genres-number"></span></h1>
                             </div>
+
                             <div class="genre-percentage">
-                                <p>Average Deezer Rank: <span id="avg-deezer-rank"></span></p>
+                                <p>Average Year of Release:</p>
+                                <h1><span id="avg-year-release"></span></h1>
                             </div>
-                            <div class="genre-percentage">
-                            <p>Average Year of Release: <span id="avg-year-release"></span></p>
-                            </div>
-                            <div class="genre-percentage">
-                            </div>
-                           
                         </div>
                     </div>
-                    <div class="col-md-4 adjusted-padding">
-                        <div class="bg-grey rounded p-3 text-white h-100 d-flex flex-column min-height" id="top-genres-container">
-                            <h2>Top 3 Genres</h2>
-                            <div class="genre-container top-genre"></div>
-                            <div class="genre-container second-genre"></div>
-                            <div class="genre-container third-genre"></div>
-                        </div>
+                <div class="col-md-4 ">
+                    <div class="bg-grey rounded p-3 text-white h-100 d-flex flex-column min-height" id="top-genres-container">
+                        <h2>Top 3 Genres</h2>
+                        <div class="genre-container top-genre"></div>
+                        <div class="genre-container second-genre"></div>
+                        <div class="genre-container third-genre"></div>
                     </div>
-                    <div class="col-md-4 adjusted-padding">
+                </div>
+                    <div class="col-md-4 ">
                         <div class="bg-grey rounded p-3 text-white h-100 d-flex flex-column min-height" id="most-recent-song">
                             <h2>Most Recent Song</h2>
                             <div class="song-info" id="most-recent-song-container">
@@ -53,7 +53,7 @@ export default class extends AbstractView {
                         </div>
                     </div>
                 </div>
-    
+
                 <!-- Song list table -->
                 <div class="container-fluid bg-grey rounded p-3 text-white mt-4 song-list">
                     <h2>My Favorite Anthems</h2>
@@ -103,46 +103,41 @@ export default class extends AbstractView {
         const numberOfGenres = await this.calculateNumberOfGenres();
         document.getElementById('genres-number').innerText = numberOfGenres;
 
-        // Calculate and display the average Deezer rank
-    const avgDeezerRank = await this.calculateAverageDeezerRank();
-    document.getElementById('avg-deezer-rank').innerText = avgDeezerRank !== 'N/A' ? `${avgDeezerRank}` : 'N/A';
-  
-    // Calculate and display the average song release date
-    const avgReleaseDate = await this.calculateAverageReleaseDate();
-    document.getElementById('avg-year-release').innerText = avgReleaseDate !== 'N/A' ? avgReleaseDate.getFullYear() : 'N/A';
-}
+        // Calculate and display the average song release date
+        const avgReleaseDate = await this.calculateAverageReleaseDate();
+        document.getElementById('avg-year-release').innerText = avgReleaseDate !== 'N/A' ? avgReleaseDate.getFullYear() : 'N/A';
+    }
 
-async calculateAverageReleaseDate() {
-    try {
-        const savedSongs = JSON.parse(localStorage.getItem('savedSongs'));
+    async calculateAverageReleaseDate() {
+        try {
+            const savedSongs = JSON.parse(localStorage.getItem('savedSongs'));
 
-        if (!savedSongs || savedSongs.length === 0) {
-            console.log('Average Release Date: N/A');
+            if (!savedSongs || savedSongs.length === 0) {
+                console.log('Average Release Date: N/A');
+                return 'N/A';
+            }
+
+            const totalReleaseDates = savedSongs.reduce((acc, song) => {
+                const parsedSong = JSON.parse(song);
+                const releaseDate = parsedSong.release_date;
+                if (releaseDate) {
+                    return acc + new Date(releaseDate).getTime();
+                } else {
+                    return acc;
+                }
+            }, 0);
+
+            const averageReleaseDateTimestamp = Math.round(totalReleaseDates / savedSongs.length);
+            const averageReleaseDate = new Date(averageReleaseDateTimestamp);
+
+            console.log(`Average Release Date: ${averageReleaseDate.toLocaleDateString()}`);
+
+            return averageReleaseDate;
+        } catch (error) {
+            console.error('Error calculating average release date:', error);
             return 'N/A';
         }
-
-        const totalReleaseDates = savedSongs.reduce((acc, song) => {
-            const parsedSong = JSON.parse(song);
-            const releaseDate = parsedSong.release_date;
-            if (releaseDate) {
-                return acc + new Date(releaseDate).getTime();
-            } else {
-                return acc;
-            }
-        }, 0);
-
-        const averageReleaseDateTimestamp = Math.round(totalReleaseDates / savedSongs.length);
-        const averageReleaseDate = new Date(averageReleaseDateTimestamp);
-
-        console.log(`Average Release Date: ${averageReleaseDate.toLocaleDateString()}`);
-
-        return averageReleaseDate;
-    } catch (error) {
-        console.error('Error calculating average release date:', error);
-        return 'N/A';
     }
-}
-
 
     async calculateAverageSongDuration() {
         try {
@@ -170,26 +165,6 @@ async calculateAverageReleaseDate() {
             return formattedAverageDuration;
         } catch (error) {
             console.error('Error calculating average song duration:', error);
-            return 'N/A';
-        }
-    }
-
-    async calculateAverageDeezerRank() {
-        try {
-            const savedSongs = JSON.parse(localStorage.getItem('savedSongs'));
-            if (!savedSongs || savedSongs.length === 0) {
-                console.log('Average Deezer Rank: N/A');
-                return 'N/A';
-            }
-            const totalDeezerRank = savedSongs.reduce((acc, song) => {
-                const parsedSong = JSON.parse(song);
-                return acc + (parsedSong.rank || 0);
-            }, 0);
-            const averageDeezerRank = Math.round(totalDeezerRank / savedSongs.length);
-            console.log(`Average Deezer Rank: ${averageDeezerRank}`);
-            return averageDeezerRank;
-        } catch (error) {
-            console.error('Error calculating average Deezer rank:', error);
             return 'N/A';
         }
     }
@@ -296,6 +271,7 @@ async calculateAverageReleaseDate() {
         const topGenresContainer = document.getElementById('top-genres-container');
 
         const topGenresHTML = `
+            <h2>Top 3 Genres</h2>
             <div class="genre-container top-genre" style="background-color: brightblue;">
                 <p>${topGenreNames[0]}</p>
             </div>
@@ -374,4 +350,3 @@ async calculateAverageReleaseDate() {
         }
     }
 }
-
