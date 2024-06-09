@@ -22,4 +22,7 @@ export default class {
     async loadFavSongs() {
         return;
     }
+
+    async deleteSong(songId) {
+    }
 }

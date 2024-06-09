@@ -64,6 +64,7 @@ export default class extends AbstractView {
                         <div class="col">Genre</div>
                         <div class="col">Date Added</div>
                         <div class="col">Duration</div>
+                        <div class="col-auto">Clear</div>
                     </div>
                     <div class="row gy-4" id="favorite-songs-container">
                         <!-- Favorite songs will be loaded here -->
@@ -287,16 +288,18 @@ export default class extends AbstractView {
     }
 
     generateFavoriteSongHTML(song) {
-        const { title, artist, genre, duration, album } = JSON.parse(song);
-        const addedTime = JSON.parse(song).addedTime;
+        const { id, title, artist, genre, duration, album, addedTime } = JSON.parse(song);
         return `
-            <div class="row song-row">
+            <div class="row song-row" data-song-id="${id}">
                 <div class="col-auto"><img src="${album.cover}" alt="Album Cover" style="max-width: 50px;"></div>
                 <div class="col" style="font-size: 14px;">${title}</div>
                 <div class="col" style="font-size: 14px;">${artist.name}</div>
                 <div class="col" style="font-size: 14px;">${genre}</div>
                 <div class="col" style="font-size: 14px;">${new Date(addedTime).toLocaleDateString()}</div>
                 <div class="col" style="font-size: 14px;">${Math.floor(duration / 60)}:${duration % 60}</div>
+                <div class="col-auto">
+                    <button class="btn btn-danger btn-custom-remove" onclick="deleteSong('${id}')">X</button>
+                </div>
             </div>
         `;
     }

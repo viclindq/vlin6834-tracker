@@ -44,6 +44,7 @@ export default class extends AbstractView {
                 <p id="release-date" class="release-date"></p>
                 <p id="deezer-rank" class="deezer-rank"></p>
                 <p id="explicit-lyrics" class="explicit-lyrics"></p>
+                <p id="song-id" class="song-id"></p>
                 <button id="add-song-button" class="btn btn-success">Add Song to My Favorite Anthems</button>
             </div>
         `;
@@ -103,15 +104,18 @@ export default class extends AbstractView {
         document.getElementById('song-duration').textContent = `Duration: ${Math.floor(song.duration / 60)}:${song.duration % 60}`;
         document.getElementById('genres').textContent = `Genre: ${song.genre}`;
         document.getElementById('release-date').textContent = song.release_date ? `Release Date: ${song.release_date}` : 'Release Date: Unknown';
-    
+
         // Display Deezer rank and explicit lyrics information
         const deezerRank = song.rank || 'N/A';
         const explicitLyrics = this.getExplicitLyricsDescription(song.explicit_content_lyrics);
         document.getElementById('deezer-rank').textContent = `Deezer Rank: ${deezerRank}`;
         document.getElementById('explicit-lyrics').textContent = `Explicit Content Lyrics: ${explicitLyrics}`;
-    
+
+        // Display the song's Deezer ID
+        document.getElementById('song-id').textContent = `Deezer ID: ${song.id}`;
+
         songDetails.classList.remove('hidden');
-    
+
         document.getElementById('add-song-button').addEventListener('click', () => {
             this.addSongToFavorites(song);
         });

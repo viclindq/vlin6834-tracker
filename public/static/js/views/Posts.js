@@ -10,33 +10,33 @@ export default class extends AbstractView {
     async getHtml() {
         return `
         <!-- Additional container row for recent songs -->
-                <div class="container-fluid bg-grey rounded p-3 text-white mt-4 recent-songs-container" id="recent-songs-container">
-                    <h2>Recent Songs You Added</h2>
-                    <div class="row gy-4">
-                        <!-- Recent songs will be loaded here -->
-                    </div>
-                </div>
-        <!-- Song list table -->
-            <div class="container-fluid bg-grey rounded p-3 text-white mt-4 song-list">
-                <h2>My Favorite Anthems</h2>
-                <div class="row header">
-                    <div class="col-auto">Cover</div>
-                    <div class="col">Song</div>
-                    <div class="col">Artist</div>
-                    <div class="col">Genre</div>
-                    <div class="col">Date Added</div>
-                    <div class="col">Duration</div>
-                    <div class="col-auto">Clear</div>
-                </div>
-                <div class="row gy-4" id="favorite-songs-container">
-                    <!-- Favorite songs will be loaded here -->
-                </div>
+        <div class="container-fluid bg-grey rounded p-3 text-white mt-4 recent-songs-container" id="recent-songs-container">
+            <h2>Recent Songs You Added</h2>
+            <div class="row gy-4">
+                <!-- Recent songs will be loaded here -->
             </div>
+        </div>
+        <!-- Song list table -->
+        <div class="container-fluid bg-grey rounded p-3 text-white mt-4 song-list">
+            <h2>My Favorite Anthems</h2>
+            <div class="row header">
+                <div class="col-auto">Cover</div>
+                <div class="col">Song</div>
+                <div class="col">Artist</div>
+                <div class="col">Genre</div>
+                <div class="col">Date Added</div>
+                <div class="col">Duration</div>
+                <div class="col-auto">Clear</div>
+            </div>
+            <div class="row gy-4" id="favorite-songs-container">
+                <!-- Favorite songs will be loaded here -->
+            </div>
+        </div>
         `;
     }
 
     async loadFavSongs() {
-        console.log("I am loading saved songs");
+        console.log("Loading saved songs");
         const savedSongs = JSON.parse(localStorage.getItem('savedSongs'));
         const favoriteContainer = document.getElementById('favorite-songs-container');
         const recentContainer = document.querySelector('#recent-songs-container .row');
@@ -75,7 +75,7 @@ export default class extends AbstractView {
                 <div class="col" style="font-size: 14px;">${new Date(addedTime).toLocaleDateString()}</div>
                 <div class="col" style="font-size: 14px;">${Math.floor(duration / 60)}:${duration % 60}</div>
                 <div class="col-auto">
-                    <button class="btn btn-danger" onclick="deleteSong('${id}')">X</button>
+                    <button class="btn btn-danger btn-custom-remove" onclick="deleteSong('${id}')">X</button>
                 </div>
             </div>
         `;
@@ -96,7 +96,6 @@ export default class extends AbstractView {
             </div>
         `;
     }
-
     async deleteSong(songId) {
         const confirmation = confirm("Are you sure you want to remove this song from your favorite songs?");
         if (confirmation) {
@@ -109,7 +108,7 @@ export default class extends AbstractView {
             });
             console.log('Updated list of songs:', updatedList);
             localStorage.setItem('savedSongs', JSON.stringify(updatedList));
-            this.loadFavSongs(); // Reload the list to reflect the changes
+            await this.loadFavSongs(); // Reload the list to reflect the changes
         }
     }
 }

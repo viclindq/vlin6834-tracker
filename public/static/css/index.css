@@ -2,6 +2,14 @@
 /* Container for the recent songs */
 /* Adjust font sizes for recent songs */
 
+
+/* Add this CSS to your stylesheet */
+.btn-custom-remove {
+    background-color: rgb(59, 59, 59) !important;
+    border-color: rgb(59, 59, 59) !important;
+    color: rgb(139, 139, 139) !important; /* Light grey color for the X text */
+}
+
 /* Styling for the most recent song container */
 #most-recent-song-container {
     text-align: center;
