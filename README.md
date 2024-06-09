@@ -35,7 +35,7 @@ Please see the GitHub repository [https://github.com/viclindq/vlin6834-tracker.g
 The process of building the tracker included a range of steps in order to have a comprehensive set up to input in the APIs and javascript libraries. Here are the rough steps I took to create the music tracker:
 
 #### 1. Single Page Architecture
-- I firstly set up the single page architecture with the help of URL = https://www.youtube.com/watch?v=6BozpmSjk-Y&t=672s which allowed me to have multiple pages while still having the set up as a single page. This included me making the navigation bar outside of every individual file. 
+- I firstly set up the single page architecture with the help of URL = https://www.youtube.com/watch?v=6BozpmSjk-Y&t=672s which allowed me to have multiple pages while still having the set up as a single page. This included me making the navigation bar outside of every individual file. Below is the navigation code from my index.html, which will make the nav bar show up on all my pages
 
 ```javascript
 <body>
@@ -53,7 +53,6 @@ The process of building the tracker included a range of steps in order to have a
     <div id="app" class="container mt-4"></div>
     <script type="module" src="/static/js/index.js"></script>
 </body>
-</html>
 ```
 
 #### 2. Placeholders & Interface Building
@@ -61,7 +60,6 @@ The process of building the tracker included a range of steps in order to have a
 
 ```javascript
  async getHtml() {
-        // Sample data for demonstration
         const songs = [
             {
                 albumCover: "https://www.udiscovermusic.com/wp-content/uploads/2017/08/Pink-Floyd-Dark-Side-Of-The-Moon.jpg",
@@ -71,13 +69,53 @@ The process of building the tracker included a range of steps in order to have a
                 dateAdded: "2024-06-07",
                 duration: "3:45"
             },
-            // Add more sample data for additional songs
         ];
+ }
 ```
 
-#### 3. 
+#### 3. Inputting Information & Loading APIs. 
+- To provide detailed song information within the application, I utilize Deezer's API. This allows me to retrieve comprehensive data about songs, including their cover art, artist, duration, genre, release date, Deezer rank, explicit content, and unique Deezer ID. The following JavaScript function demonstrates how I fetch and display this information:
 
-#### Music Taste Report
+```javascript
+displaySongDetails(song) {
+    const songDetails = document.getElementById('song-details');
+    document.getElementById('song-cover').src = song.album.cover_big;
+    document.getElementById('song-name').textContent = song.title;
+    document.getElementById('song-artist').textContent = `Artist: ${song.artist.name}`;
+    document.getElementById('song-duration').textContent = `Duration: ${Math.floor(song.duration / 60)}:${song.duration % 60}`;
+    document.getElementById('genres').textContent = `Genre: ${song.genre}`;
+    document.getElementById('release-date').textContent = song.release_date ? `Release Date: ${song.release_date}` : 'Release Date: Unknown';
+
+    // Display Deezer rank and explicit lyrics information
+    const deezerRank = song.rank || 'N/A';
+    const explicitLyrics = this.getExplicitLyricsDescription(song.explicit_content_lyrics);
+    document.getElementById('deezer-rank').textContent = `Deezer Rank: ${deezerRank}`;
+    document.getElementById('explicit-lyrics').textContent = `Explicit Content Lyrics: ${explicitLyrics}`;
+
+    // Display the song's Deezer ID
+    document.getElementById('song-id').textContent = `Deezer ID: ${song.id}`;
+
+    songDetails.classList.remove('hidden');
+
+    document.getElementById('add-song-button').addEventListener('click', () => {
+        this.addSongToFavorites(song);
+    });
+}
+```
+
+- To provide detailed song information within the application, I utilize Deezer's API. This allows me to retrieve comprehensive data about songs, including their cover art, artist, duration, genre, release date, Deezer rank, explicit content, and unique Deezer ID. The function `displaySongDetails(song)` fetches various HTML elements where the song information will be displayed. It sets the song's cover image, title, artist name, duration (converted from seconds to minutes and seconds), genre, and release date. Additionally, it displays the Deezer rank (or 'N/A' if not available), a description of explicit content lyrics, and the unique Deezer ID of the song. The song details section is made visible by removing the 'hidden' class. An event listener is added to the 'Add Song' button, allowing users to add the displayed song to their favorites. This implementation ensures users can easily access key details about their favorite songs and add them to their personalized lists.
+
+#### Dashboard Layout
+- The code sets up a responsive dashboard layout using Bootstrap classes, with sections dedicated to displaying the user's music taste, top genres, most recent song, favorite songs, and recently added songs.
+
+#### Favorite Songs List
+- A table lists all the user's favorite songs, providing detailed information such as cover, title, artist, genre, date added, and duration. It includes functionality for users to remove songs from their favorites.
+
+### JavaScript Functions
+The JavaScript functions dynamically fetch and update the dashboard's content. They handle the calculation of average song duration, number of genres, and average release date, as well as loading and updating the favorite and most recent songs sections.
+
+
+### Music Taste Report
 - I had to change the music taste report from a toggle format about the genres to averages and more interesting information as there were already two containers that included insights into the genres, which would make the website very repetitive. 
 
 - Below is the original toggle format that I made to follow the prototype exactly from A2, althgouh I realised for things like the number of genres variety, a toggle would not be able to represent the data as there is no maximum or minimum value. 
@@ -279,4 +317,3 @@ This project was initially generated with the help of ChatGPT4 with the followin
 - Hi, can you please give me a simple javascript Single page application for tracking how many pies I eat each week.
 - Can you please write a readme file for the application.
 - Can you please add local storage to the application.
-- Can you please update the readme to reflect this change,
